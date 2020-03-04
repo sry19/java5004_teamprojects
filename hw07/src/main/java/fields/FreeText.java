@@ -32,4 +32,36 @@ public class FreeText implements Validator<String> {
     }
     return false;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    FreeText freeText = (FreeText) o;
+
+    if (!numOfLines.equals(freeText.numOfLines)) {
+      return false;
+    }
+    return numOfCharsPerLine.equals(freeText.numOfCharsPerLine);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = numOfLines.hashCode();
+    result = 31 * result + numOfCharsPerLine.hashCode();
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "FreeText{" +
+        "numOfLines=" + numOfLines +
+        ", numOfCharsPerLine=" + numOfCharsPerLine +
+        '}';
+  }
 }
