@@ -3,19 +3,46 @@ package fields;
 /**
  * Xuefeng
  *
- * @param <S>
- * @param <T>
  */
 
-public class Field<S, T extends Validator<S>> {
+public class Field<T> {
 
-  private S input;
+  private String label;
+  private T value;
+  private boolean required;
+  private Validator<T> validator;
 
-  public Field(S value) {
-    this.input = null;
+  public Field(String label, boolean required, Validator<T> validator) {
+    this.label = label;
+    this.value = null;
+    this.required = required;
+    this.validator = validator;
   }
 
-  public void updateValue(S input) {
-    this.input = input;
+  public void updateValue(T value) {
+    if (validator.isValid(value)) {
+      this.value = value;
+    }
+    throw new IllegalArgumentException();
+  }
+
+  public boolean isFilled() {
+    return !this.required || this.value != null;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  public T getValue() {
+    return value;
+  }
+
+  public boolean isRequired() {
+    return required;
+  }
+
+  public Validator<T> getValidator() {
+    return validator;
   }
 }
