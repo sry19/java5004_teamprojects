@@ -1,10 +1,10 @@
 package fields;
 
 /**
- * Xuefeng
+ * Checkbox validator.
  */
 
-public class CheckBox implements Validator {
+public class CheckBox implements Validator<Boolean> {
 
   /**
    * Check if a input is valid.
@@ -13,7 +13,7 @@ public class CheckBox implements Validator {
    * @return true or false.
    */
   @Override
-  public boolean isValid(Object input) {
-    return false;
+  public boolean isValid(Boolean input) {
+    return true;
   }
 }
