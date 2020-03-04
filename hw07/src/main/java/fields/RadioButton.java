@@ -3,7 +3,7 @@ package fields;
 /**
  * yiyu
  */
-public class RadioButton implements Validator {
+public class RadioButton implements Validator<Boolean> {
 
   /**
    * Check if a input is valid.
@@ -12,7 +12,7 @@ public class RadioButton implements Validator {
    * @return true or false.
    */
   @Override
-  public boolean isValid(Object input) {
-    return false;
+  public boolean isValid(Boolean input) {
+    return (input != null);
   }
 }
