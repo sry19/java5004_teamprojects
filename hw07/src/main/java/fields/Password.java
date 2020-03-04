@@ -1,5 +1,7 @@
 package fields;
 
+import java.util.Objects;
+
 /**
  * Password validator.
  */
@@ -126,5 +128,37 @@ public class Password implements Validator<String> {
 
     return lowerCaseCount >= this.minNumLowerCase && upperCaseCount >= this.minNumUpperCase
         && digitCount >= this.minNumDigit;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Password password = (Password) o;
+    return minLen == password.minLen &&
+        maxLen == password.maxLen &&
+        minNumLowerCase == password.minNumLowerCase &&
+        minNumUpperCase == password.minNumUpperCase &&
+        minNumDigit == password.minNumDigit;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(minLen, maxLen, minNumLowerCase, minNumUpperCase, minNumDigit);
+  }
+
+  @Override
+  public String toString() {
+    return "Password{" +
+        "minLen=" + minLen +
+        ", maxLen=" + maxLen +
+        ", minNumLowerCase=" + minNumLowerCase +
+        ", minNumUpperCase=" + minNumUpperCase +
+        ", minNumDigit=" + minNumDigit +
+        '}';
   }
 }

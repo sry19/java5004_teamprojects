@@ -51,4 +51,36 @@ public class PasswordTest {
   public void isValid() {
     assertTrue(this.p4.isValid("1234abcdABCD&#"));
   }
+
+  @Test
+  public void testEquals() {
+    assertEquals(this.p1, this.p1);
+    assertNotEquals(this.p1, null);
+    assertNotEquals(this.p1, new CheckBox());
+
+    Password o1 = new Password(1, 16);
+    Password o2 = new Password(8, 10);
+    Password o3 = new Password(8, 16);
+    assertNotEquals(this.p1, o1);
+    assertNotEquals(this.p1, o2);
+    assertNotEquals(this.p1, this.p2);
+    assertNotEquals(this.p2, this.p3);
+    assertNotEquals(this.p3, this.p4);
+    assertEquals(this.p1, o3);
+  }
+
+  @Test
+  public void testHashCode() {
+    Password o1 = new Password(8, 16);
+    assertEquals(this.p1.hashCode(), o1.hashCode());
+    assertNotEquals(this.p1.hashCode(), this.p2.hashCode());
+  }
+
+  @Test
+  public void testToString() {
+    System.out.println(this.p1.toString());
+    assertEquals(this.p1.toString(),
+        "Password{minLen=8, maxLen=16, minNumLowerCase=0, minNumUpperCase=0, minNumDigit=0}");
+  }
+
 }
