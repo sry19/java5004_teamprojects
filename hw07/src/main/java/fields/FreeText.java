@@ -1,7 +1,8 @@
 package fields;
 
+
 /**
- * Ruoyun
+ * The free text validator.
  */
 public class FreeText implements Validator<String> {
 

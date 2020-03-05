@@ -36,6 +36,11 @@ public class PhoneTest {
   }
 
   @Test
+  public void testHashCode() {
+    assertEquals(validator1.hashCode(), validator3.hashCode());
+  }
+
+  @Test
   public void testToString() {
     assertEquals("Phone{len=6}", validator1.toString());
   }

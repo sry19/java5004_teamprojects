@@ -1,7 +1,8 @@
 package fields;
 
+
 /**
- * ruoyun
+ * The phone validator class.
  */
 public class Phone implements Validator<String> {
 

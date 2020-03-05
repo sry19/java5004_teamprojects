@@ -14,10 +14,10 @@ public class FreeTextTest {
 
   @Before
   public void setUp() throws Exception {
-    validator1 = new FreeText(4,2);
-    validator2 = new FreeText(3,2);
-    validator3 = new FreeText(4,1);
-    validator4 = new FreeText(4,2);
+    validator1 = new FreeText(4, 2);
+    validator2 = new FreeText(3, 2);
+    validator3 = new FreeText(4, 1);
+    validator4 = new FreeText(4, 2);
   }
 
   @Test
