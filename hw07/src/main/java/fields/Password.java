@@ -82,7 +82,8 @@ public class Password implements Validator<String> {
    */
   @Override
   public boolean isValid(String input) {
-    return this.withLength(input) && this.noSpace(input) && this.meetNumberRequirements(input);
+    return input != null && (this.withLength(input) && this.noSpace(input) && this
+        .meetNumberRequirements(input));
   }
 
   /**
