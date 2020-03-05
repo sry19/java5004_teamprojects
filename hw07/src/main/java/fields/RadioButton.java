@@ -1,8 +1,7 @@
 package fields;
 
 /**
- * yiyu
- * A radiobutton validator.
+ * yiyu A radiobutton validator.
  */
 public class RadioButton implements Validator<Boolean> {
 
