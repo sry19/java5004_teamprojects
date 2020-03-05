@@ -25,8 +25,8 @@ public class NumberTest {
   @Test
   public void testIsValid() {
     assertFalse(num1.isValid("-1"));
-    assertTrue(num1.isValid("2"));
-    assertTrue(num1.isValid("3.0"));
+    assertTrue(num1.isValid("2.0"));
+    assertTrue(num1.isValid("3.00"));
     assertFalse(num1.isValid("1"));
     assertFalse(num1.isValid(null));
     assertFalse(num1.isValid("AB2C"));

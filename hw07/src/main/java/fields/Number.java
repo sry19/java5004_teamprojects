@@ -65,7 +65,7 @@ public class Number implements Validator<String> {
     if (!input.contains(".")) {
       return 0;
     } else {
-      return input.length() - input.indexOf('.');
+      return (input.length() - input.indexOf('.') - 1);
     }
   }
 
