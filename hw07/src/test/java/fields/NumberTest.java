@@ -29,6 +29,10 @@ public class NumberTest {
     assertTrue(num1.isValid("3.0"));
     assertFalse(num1.isValid("1"));
     assertFalse(num1.isValid(null));
+    assertFalse(num1.isValid("AB2C"));
+    assertFalse(num1.isValid("    14    "));
+    assertFalse(num1.isValid(""));
+    assertFalse(num1.isValid(" "));
     assertFalse(num1.isValid("3.345"));
     assertTrue(num1.isValid("100"));
     assertFalse(num1.isValid("101.1"));

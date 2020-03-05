@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
- * yiyu Validator for numbers.
+ * Validator for numbers.
  */
 public class Number implements Validator<String> {
 
