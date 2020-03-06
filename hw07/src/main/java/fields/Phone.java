@@ -25,6 +25,9 @@ public class Phone implements Validator<String> {
    */
   @Override
   public boolean isValid(String input) {
+    if (input == null) {
+      return false;
+    }
     if (input.length() != this.len) {
       return false;
     }

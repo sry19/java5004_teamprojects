@@ -28,6 +28,9 @@ public class FreeText implements Validator<String> {
    */
   @Override
   public boolean isValid(String input) {
+    if (input == null) {
+      return false;
+    }
     if (input.length() <= this.numOfCharsPerLine * this.numOfLines) {
       return true;
     }

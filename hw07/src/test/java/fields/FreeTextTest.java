@@ -22,6 +22,7 @@ public class FreeTextTest {
 
   @Test
   public void isValid() {
+    assertFalse(validator1.isValid(null));
     assertFalse(validator1.isValid("free text"));
     assertTrue(validator1.isValid("freetxt"));
     assertTrue(validator1.isValid("freetext"));

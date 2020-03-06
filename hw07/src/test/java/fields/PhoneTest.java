@@ -20,6 +20,7 @@ public class PhoneTest {
 
   @Test
   public void isValid() {
+    assertFalse(validator1.isValid(null));
     assertTrue(validator1.isValid("123456"));
     assertFalse(validator1.isValid("123a45"));
     assertFalse(validator1.isValid("123"));
