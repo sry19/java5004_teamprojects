@@ -35,7 +35,7 @@ public class Number implements Validator<String> {
   @Override
   public boolean isValid(String input) {
     return (this.validNumeric(input) &&
-        this.validDecimal(input) <= this.decimalPlaces &&
+        this.validDecimal(input) <= Math.max(0, this.decimalPlaces) &&
         this.validValue(input));
   }
 
@@ -46,7 +46,7 @@ public class Number implements Validator<String> {
    * @return if the string is a valid positive numeric number
    */
   private boolean validNumeric(String input) {
-    Pattern p = Pattern.compile("\\d+(\\.\\d+)?");
+    Pattern p = Pattern.compile("-?\\d+(\\.\\d+)?");
 
     if (input == null) {
       return false;

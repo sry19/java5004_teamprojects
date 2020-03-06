@@ -15,27 +15,29 @@ public class NumberTest {
 
   @Before
   public void setUp() throws Exception {
-    num1 = new Number(2, 100, 2);
-    num2 = new Number(2, 100, 2);
-    num3 = new Number(3, 100, 2);
-    num4 = new Number(2, 101, 2);
-    num5 = new Number(2, 100, 4);
+    num1 = new Number(-2, 100, 2);
+    num2 = new Number(-2, 100, 2);
+    num3 = new Number(3, 100, -2);
+    num4 = new Number(-2, 101, 2);
+    num5 = new Number(-2, 100, 4);
   }
 
   @Test
   public void testIsValid() {
-    assertFalse(num1.isValid("-1"));
-    assertTrue(num1.isValid("2.0"));
-    assertTrue(num1.isValid("3.00"));
-    assertFalse(num1.isValid("1"));
+    assertTrue(num1.isValid("-2.0"));
+    assertTrue(num1.isValid("100"));
+
+    assertTrue(num3.isValid("4"));
+    assertFalse(num1.isValid("-3"));
+    assertTrue(num1.isValid("1.00"));
+    assertFalse(num1.isValid("3.345"));
+    assertFalse(num1.isValid("101.1"));
+
     assertFalse(num1.isValid(null));
     assertFalse(num1.isValid("AB2C"));
     assertFalse(num1.isValid("    14    "));
     assertFalse(num1.isValid(""));
     assertFalse(num1.isValid(" "));
-    assertFalse(num1.isValid("3.345"));
-    assertTrue(num1.isValid("100"));
-    assertFalse(num1.isValid("101.1"));
   }
 
 
@@ -57,7 +59,7 @@ public class NumberTest {
 
   @Test
   public void testToString() {
-    String expected = "Number{minValue=2, maxValue=100, decimalPlaces=2}";
+    String expected = "Number{minValue=-2, maxValue=100, decimalPlaces=2}";
     assertEquals(expected, num1.toString());
   }
 }
