@@ -20,6 +20,7 @@ public class PhoneTest {
 
   @Test
   public void isValid() {
+    assertFalse(validator1.isValid(null));
     assertTrue(validator1.isValid("123456"));
     assertFalse(validator1.isValid("123a45"));
     assertFalse(validator1.isValid("123"));
@@ -33,6 +34,11 @@ public class PhoneTest {
     assertNotEquals(validator1, validator2);
     assertFalse(validator1.equals(null));
     assertFalse(validator1.equals("ss"));
+  }
+
+  @Test
+  public void testHashCode() {
+    assertEquals(validator1.hashCode(), validator3.hashCode());
   }
 
   @Test

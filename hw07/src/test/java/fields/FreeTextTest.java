@@ -14,14 +14,15 @@ public class FreeTextTest {
 
   @Before
   public void setUp() throws Exception {
-    validator1 = new FreeText(4,2);
-    validator2 = new FreeText(3,2);
-    validator3 = new FreeText(4,1);
-    validator4 = new FreeText(4,2);
+    validator1 = new FreeText(4, 2);
+    validator2 = new FreeText(3, 2);
+    validator3 = new FreeText(4, 1);
+    validator4 = new FreeText(4, 2);
   }
 
   @Test
   public void isValid() {
+    assertFalse(validator1.isValid(null));
     assertFalse(validator1.isValid("free text"));
     assertTrue(validator1.isValid("freetxt"));
     assertTrue(validator1.isValid("freetext"));
