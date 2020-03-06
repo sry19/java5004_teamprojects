@@ -25,12 +25,16 @@ public class Phone implements Validator<String> {
    */
   @Override
   public boolean isValid(String input) {
-    if (input == null) {
-      return false;
-    }
-    if (input.length() != this.len) {
-      return false;
-    }
+    return input != null && input.length() == this.len && this.allDigits(input);
+  }
+
+  /**
+   * check if all chars are digits
+   *
+   * @param input a string
+   * @return true or false
+   */
+  private boolean allDigits(String input) {
     for (int i = 0; i < input.length(); i++) {
       if (!Character.isDigit(input.charAt(i))) {
         return false;

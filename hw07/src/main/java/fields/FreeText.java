@@ -28,13 +28,16 @@ public class FreeText implements Validator<String> {
    */
   @Override
   public boolean isValid(String input) {
-    if (input == null) {
-      return false;
-    }
-    if (input.length() <= this.numOfCharsPerLine * this.numOfLines) {
-      return true;
-    }
-    return false;
+    return input != null && input.length() <= this.getMaxNumOfChar();
+  }
+
+  /**
+   * get maximum number of chars
+   *
+   * @return the number of chard
+   */
+  private Integer getMaxNumOfChar() {
+    return this.numOfCharsPerLine * this.numOfLines;
   }
 
   @Override
