@@ -48,6 +48,11 @@ public class PasswordTest {
   }
 
   @Test
+  public void inputNull() {
+    assertFalse(this.p1.isValid(null));
+  }
+
+  @Test
   public void isValid() {
     assertTrue(this.p4.isValid("1234abcdABCD&#"));
   }
