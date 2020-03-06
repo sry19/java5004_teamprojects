@@ -34,7 +34,7 @@ public class Number implements Validator<String> {
    */
   @Override
   public boolean isValid(String input) {
-    return (this.validNumeric(input) &&
+    return (input != null && this.validNumeric(input) &&
         this.validDecimal(input) <= Math.max(0, this.decimalPlaces) &&
         this.validValue(input));
   }
@@ -48,11 +48,7 @@ public class Number implements Validator<String> {
   private boolean validNumeric(String input) {
     Pattern p = Pattern.compile("-?\\d+(\\.\\d+)?");
 
-    if (input == null) {
-      return false;
-    } else {
-      return p.matcher(input).matches();
-    }
+    return p.matcher(input).matches();
   }
 
   /**

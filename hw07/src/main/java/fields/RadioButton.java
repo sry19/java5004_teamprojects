@@ -13,6 +13,6 @@ public class RadioButton implements Validator<Boolean> {
    */
   @Override
   public boolean isValid(Boolean input) {
-    return (input != null);
+    return input != null;
   }
 }
