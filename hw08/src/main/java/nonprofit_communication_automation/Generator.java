@@ -29,6 +29,7 @@ public class Generator {
    * @param inputDataPath inputDataPath
    * @param templatePath  templatePath
    * @param outputDir     outputDir
+   * @param formatter     the formatter
    */
   public Generator(String inputDataPath, String templatePath, String outputDir,
       IFormatter formatter) {
@@ -45,6 +46,7 @@ public class Generator {
    * @param inputDataPath    inputDataPath
    * @param templatePathList templatePathList
    * @param outputDir        outputDir
+   * @param formatter        formatter
    */
   public Generator(String inputDataPath, List<String> templatePathList, String outputDir,
       IFormatter formatter) {
