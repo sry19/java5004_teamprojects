@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ArgumentHandlerTest {
+
   ArgumentHandler argumentHandler;
   ArgumentHandler argumentHandler1;
 
@@ -24,55 +25,63 @@ public class ArgumentHandlerTest {
 
   @Test
   public void commandLineParser() {
-    String[] args = new String[] {"--csv-file","abc.csv","--output-dir","dir","--email-template","abs.txt","--email"};
+    String[] args = new String[]{"--csv-file", "abc.csv", "--output-dir", "dir", "--email-template",
+        "abs.txt", "--email"};
     assertTrue(argumentHandler.commandLineParser(args));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidCommandLineParser() {
-    String[] args = new String[] {"--csv-file","--output-dir","dir","--email-template","abs.txt","--email"};
+    String[] args = new String[]{"--csv-file", "--output-dir", "dir", "--email-template", "abs.txt",
+        "--email"};
     argumentHandler.commandLineParser(args);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidCommandLineParser2() {
-    String[] args = new String[] {"--csv-file","abc.csv","--output-dir","--email-template","abs.txt","--email"};
+    String[] args = new String[]{"--csv-file", "abc.csv", "--output-dir", "--email-template",
+        "abs.txt", "--email"};
     argumentHandler.commandLineParser(args);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidCommandLineParser3() {
-    String[] args = new String[] {"--csv-file","xx.csv", "--output-dir","dir","--email-template","--email"};
+    String[] args = new String[]{"--csv-file", "xx.csv", "--output-dir", "dir", "--email-template",
+        "--email"};
     argumentHandler.commandLineParser(args);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidCommandLineParser4() {
-    String[] args = new String[] {"--csv-file","xx.csv", "--output-dir","dir","--email-template","abs.txt","--email", "--output-dir","dir"};
+    String[] args = new String[]{"--csv-file", "xx.csv", "--output-dir", "dir", "--email-template",
+        "abs.txt", "--email", "--output-dir", "dir"};
     argumentHandler.commandLineParser(args);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidCommandLineParser5() {
-    String[] args = new String[] {"--csv-file","xx.csv","--csv-file","xx.csv", "--output-dir","dir","--email-template","abs.txt","--email"};
+    String[] args = new String[]{"--csv-file", "xx.csv", "--csv-file", "xx.csv", "--output-dir",
+        "dir", "--email-template", "abs.txt", "--email"};
     argumentHandler.commandLineParser(args);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidCommandLineParser6() {
-    String[] args = new String[] {"--csv-file","xx.csv", "--output-dir","dir","--email-template","abs.txt"};
+    String[] args = new String[]{"--csv-file", "xx.csv", "--output-dir", "dir", "--email-template",
+        "abs.txt"};
     argumentHandler.commandLineParser(args);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidCommandLineParser7() {
-    String[] args = new String[] {"--csv-file","xx.cs", "--output-dir","dir","--email-template","abs.txt"};
+    String[] args = new String[]{"--csv-file", "xx.cs", "--output-dir", "dir", "--email-template",
+        "abs.txt"};
     argumentHandler.commandLineParser(args);
   }
 
   @Test
   public void labelParser() {
-    argumentHandler.getVisitedTemplate().put("--email","abs.txt");
+    argumentHandler.getVisitedTemplate().put("--email", "abs.txt");
     assertFalse(argumentHandler.getVisitedTemplate().isEmpty());
     assertTrue(argumentHandler.labelParser("--email"));
     assertTrue(argumentHandler.getVisitedTemplate().isEmpty());
@@ -84,11 +93,13 @@ public class ArgumentHandlerTest {
 
   @Test
   public void templateParser() {
-    String[] args = new String[] {"--csv-file","abc.csv","--output-dir","dir","--email-template","abs.txt","--email"};
+    String[] args = new String[]{"--csv-file", "abc.csv", "--output-dir", "dir", "--email-template",
+        "abs.txt", "--email"};
     assertTrue(argumentHandler.templateParser(args, 4, "--email"));
     assertEquals("{--email=abs.txt}", argumentHandler.getVisitedTemplate().toString());
 
-    String[] args1 = new String[] {"--csv-file","abc.csv","--email", "--output-dir","dir","--email-template","abs.txt"};
+    String[] args1 = new String[]{"--csv-file", "abc.csv", "--email", "--output-dir", "dir",
+        "--email-template", "abs.txt"};
     Set<String> set = new HashSet<>();
     set.add("--email");
     argumentHandler1.setVisitedLabel(set);
@@ -99,19 +110,20 @@ public class ArgumentHandlerTest {
 
   @Test
   public void invalidTemplateParser1() {
-    String[] args = new String[]{"--csv-file","abc.csv","--email-template"};
+    String[] args = new String[]{"--csv-file", "abc.csv", "--email-template"};
     assertFalse(argumentHandler.templateParser(args, 2, "--email"));
   }
 
   @Test
   public void invalidTemplateParser2() {
-    String[] args = new String[]{"--output-dir","dir","--email-template","abs.jpg","--email"};
+    String[] args = new String[]{"--output-dir", "dir", "--email-template", "abs.jpg", "--email"};
     assertFalse(argumentHandler.templateParser(args, 2, "--email"));
   }
 
   @Test
   public void invalidTemplateParser3() {
-    String[] args = new String[] {"--csv-file","abc.csv","--email", "--output-dir","dir","--email-template"};
+    String[] args = new String[]{"--csv-file", "abc.csv", "--email", "--output-dir", "dir",
+        "--email-template"};
     Set<String> set = new HashSet<>();
     set.add("--email");
     argumentHandler.setVisitedLabel(set);
@@ -120,7 +132,8 @@ public class ArgumentHandlerTest {
 
   @Test
   public void invalidTemplateParser4() {
-    String[] args = new String[] {"--csv-file","abc.csv","--email", "--output-dir","dir","--email-template","avs"};
+    String[] args = new String[]{"--csv-file", "abc.csv", "--email", "--output-dir", "dir",
+        "--email-template", "avs"};
     Set<String> set = new HashSet<>();
     set.add("--email");
     argumentHandler.setVisitedLabel(set);
@@ -165,7 +178,7 @@ public class ArgumentHandlerTest {
   @Test
   public void isValidPath() {
     assertTrue(argumentHandler.isValidPath("aaa"));
-    assertTrue(argumentHandler.isValidPath("a_b"+ File.separator+"513b"));
+    assertTrue(argumentHandler.isValidPath("a_b" + File.separator + "513b"));
     assertFalse(argumentHandler.isValidPath("bs.c"));
   }
 
@@ -199,8 +212,8 @@ public class ArgumentHandlerTest {
 
   @Test
   public void getVisitedTemplate() {
-    HashMap<String,String> map = new HashMap<>();
-    map.put("a","b");
+    HashMap<String, String> map = new HashMap<>();
+    map.put("a", "b");
     argumentHandler.setVisitedTemplate(map);
     assertEquals("{a=b}", argumentHandler.getVisitedTemplate().toString());
   }
@@ -209,5 +222,23 @@ public class ArgumentHandlerTest {
   public void isValidCSVFile() {
     assertTrue(argumentHandler.isValidCSVFile("xxx.csv"));
     assertTrue(argumentHandler.isValidCSVFile("asd.sd.csv"));
+  }
+
+  @Test
+  public void getLog() {
+    assertEquals(new ErrorLogger(), argumentHandler.getLog());
+  }
+
+  @Test
+  public void testEqual() {
+  }
+
+  @Test
+  public void testHashcode() {
+  }
+
+  @Test
+  public void testToString() {
+    assertEquals("ArgumentHandler{csvFile='null', templateList=[], outputDir='null', visitedLabel=[], visitedTemplate={}, log=Empty log}", argumentHandler.toString());
   }
 }

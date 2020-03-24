@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -89,18 +90,18 @@ public class ArgumentHandler {
     //if the unmatched label list is not empty, it means we lack template
     if (!this.visitedLabel.isEmpty()) {
       this.log.log("lack template");
-      throw new IllegalArgumentException("lack template");
+      throw new IllegalArgumentException();
       //if the unmatched template list hash map is not empty, it means we lack template
     } else if (!this.visitedTemplate.isEmpty()) {
       this.log.log("lack label");
-      throw new IllegalArgumentException("lack label");
+      throw new IllegalArgumentException();
     } else {
       //no errors, and all required fields fulfilled
       if (checkRequiredArguments() && this.log.isEmpty()) {
         return true;
       } else {
         this.log.log("required fields missed");
-        throw new IllegalArgumentException("required fields missed");
+        throw new IllegalArgumentException();
       }
     }
   }
@@ -284,5 +285,65 @@ public class ArgumentHandler {
    */
   public void setOutputDir(String outputDir) {
     this.outputDir = outputDir;
+  }
+
+  /**
+   * get error logs
+   * @return error log
+   */
+  public ErrorLogger getLog() {
+    return log;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    ArgumentHandler that = (ArgumentHandler) o;
+
+    if (!csvFile.equals(that.csvFile)) {
+      return false;
+    }
+    if (!templateList.equals(that.templateList)) {
+      return false;
+    }
+    if (!outputDir.equals(that.outputDir)) {
+      return false;
+    }
+    if (!visitedLabel.equals(that.visitedLabel)) {
+      return false;
+    }
+    if (!visitedTemplate.equals(that.visitedTemplate)) {
+      return false;
+    }
+    return log.equals(that.log);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = csvFile.hashCode();
+    result = 31 * result + (templateList.equals(new ArrayList<String>())?0:templateList.hashCode());
+    result = 31 * result + outputDir.hashCode();
+    result = 31 * result + (visitedLabel.equals(new HashSet<String>())?0:visitedLabel.hashCode());
+    result = 31 * result + (visitedTemplate.equals(new Hashtable<String,String>())?0:visitedTemplate.hashCode());
+    result = 31 * result + (log.equals(new ErrorLogger())?0:log.hashCode());
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "ArgumentHandler{" +
+        "csvFile='" + csvFile + '\'' +
+        ", templateList=" + templateList +
+        ", outputDir='" + outputDir + '\'' +
+        ", visitedLabel=" + visitedLabel +
+        ", visitedTemplate=" + visitedTemplate +
+        ", log=" + log +
+        '}';
   }
 }
