@@ -90,19 +90,17 @@ public class ArgumentHandler {
     //if the unmatched label list is not empty, it means we lack template
     if (!this.visitedLabel.isEmpty()) {
       this.log.log("lack template");
-      throw new IllegalArgumentException();
+    }
       //if the unmatched template list hash map is not empty, it means we lack template
-    } else if (!this.visitedTemplate.isEmpty()) {
+    if (!this.visitedTemplate.isEmpty()) {
       this.log.log("lack label");
-      throw new IllegalArgumentException();
+    }
+    //no errors, and all required fields fulfilled
+    if (checkRequiredArguments() && this.log.isEmpty()) {
+      return true;
     } else {
-      //no errors, and all required fields fulfilled
-      if (checkRequiredArguments() && this.log.isEmpty()) {
-        return true;
-      } else {
-        this.log.log("required fields missed");
-        throw new IllegalArgumentException();
-      }
+      this.log.log("required fields missed");
+      throw new IllegalArgumentException();
     }
   }
 
@@ -327,11 +325,11 @@ public class ArgumentHandler {
   @Override
   public int hashCode() {
     int result = csvFile.hashCode();
-    result = 31 * result + (templateList.equals(new ArrayList<String>())?0:templateList.hashCode());
+    result = 31 * result + templateList.hashCode();
     result = 31 * result + outputDir.hashCode();
-    result = 31 * result + (visitedLabel.equals(new HashSet<String>())?0:visitedLabel.hashCode());
-    result = 31 * result + (visitedTemplate.equals(new Hashtable<String,String>())?0:visitedTemplate.hashCode());
-    result = 31 * result + (log.equals(new ErrorLogger())?0:log.hashCode());
+    result = 31 * result + visitedLabel.hashCode();
+    result = 31 * result + visitedTemplate.hashCode();
+    result = 31 * result + log.hashCode();
     return result;
   }
 
