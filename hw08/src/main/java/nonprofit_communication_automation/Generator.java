@@ -2,7 +2,7 @@ package nonprofit_communication_automation;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -80,10 +80,13 @@ public class Generator {
     CSVReader csvReader = new CSVReader(inputDataPath);
 
     HashMap<String, String> map;
+
+    // Read the template to a array of string to save io operation.
+    ArrayList<String> lines = this.readTemplate(inputFilePath);
     int i = 0;
     while ((map = csvReader.readNextRow()) != null) {
       String outputFilePath = getOutPutFilePath(inputFilePath, i);
-      generateSingleRow(inputFilePath, outputFilePath, map);
+      generateSingleRow(lines, outputFilePath, map);
       i++;
     }
     csvReader.close();
@@ -92,22 +95,19 @@ public class Generator {
   /**
    * Create a output file from a single row.
    *
-   * @param inputFilePath      the input file buffer.
+   * @param lines          the input template as a array of string.
    * @param outputFilePath the output file path,
    * @param map            the map to replace the placeholder.
    * @throws IOException              if IO error happens.
    * @throws InvalidTemplateException if the variable in template is not in provided table.
    */
-  private void generateSingleRow(String inputFilePath, String outputFilePath,
+  private void generateSingleRow(ArrayList<String> lines, String outputFilePath,
       HashMap<String, String> map)
       throws IOException, InvalidTemplateException {
-    BufferedReader inputFile = new BufferedReader(new FileReader(inputFilePath));
     BufferedWriter outputFile = new BufferedWriter(new FileWriter(outputFilePath));
-    String line;
-    while ((line = inputFile.readLine()) != null) {
+    for (String line : lines) {
       outputFile.write(this.formatter.format(line, map) + "\n");
     }
-    inputFile.close();
     outputFile.close();
   }
 
@@ -120,8 +120,24 @@ public class Generator {
    */
   private String getOutPutFilePath(String inputFilePath, int i) {
     String[] splits = inputFilePath.split("[/\\\\]");
-    String filename = splits[splits.length-1].split("\\.")[0];
+    String filename = splits[splits.length - 1].split("\\.")[0];
     return this.outputDir + filename + "_" + i + "_.out.txt";
+  }
+
+  /**
+   * Read a template to ArrayList.
+   *
+   * @param inputFilePath the provided template path.
+   * @return the array list.
+   */
+  private ArrayList<String> readTemplate(String inputFilePath) throws IOException {
+    BufferedReader inputFile = new BufferedReader(new FileReader(inputFilePath));
+    ArrayList<String> res = new ArrayList<>();
+    String line;
+    while ((line = inputFile.readLine()) != null) {
+      res.add(line);
+    }
+    return res;
   }
 
   @Override
