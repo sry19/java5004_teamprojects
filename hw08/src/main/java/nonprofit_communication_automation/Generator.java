@@ -77,37 +77,37 @@ public class Generator {
   private void generateSingleFile(String inputFilePath)
       throws IOException, InvalidCSVFileException, InvalidTemplateException {
     CSVReader csvReader = new CSVReader(inputDataPath);
-    BufferedReader inputFile = new BufferedReader(new FileReader(inputFilePath));
 
     HashMap<String, String> map;
     int i = 0;
     while ((map = csvReader.readNextRow()) != null) {
       String outputFilePath = getOutPutFilePath(inputFilePath, i);
-      generateSingleRow(inputFile, outputFilePath, map);
+      generateSingleRow(inputFilePath, outputFilePath, map);
       i++;
     }
     csvReader.close();
-    inputFile.close();
   }
 
   /**
    * Create a output file from a single row.
    *
-   * @param inputFile      the input file buffer.
+   * @param inputFilePath      the input file buffer.
    * @param outputFilePath the output file path,
    * @param map            the map to replace the placeholder.
    * @throws IOException              if IO error happens.
    * @throws InvalidTemplateException if the variable in template is not in provided table.
    */
-  private void generateSingleRow(BufferedReader inputFile, String outputFilePath,
+  private void generateSingleRow(String inputFilePath, String outputFilePath,
       HashMap<String, String> map)
       throws IOException, InvalidTemplateException {
     System.out.println(outputFilePath);
+    BufferedReader inputFile = new BufferedReader(new FileReader(inputFilePath));
     BufferedWriter outputFile = new BufferedWriter(new FileWriter(outputFilePath));
     String line;
     while ((line = inputFile.readLine()) != null) {
       outputFile.write(this.formatter.format(line, map) + "\n");
     }
+    inputFile.close();
     outputFile.close();
   }
 
