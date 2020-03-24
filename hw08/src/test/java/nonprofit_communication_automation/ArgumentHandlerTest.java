@@ -165,7 +165,7 @@ public class ArgumentHandlerTest {
   @Test
   public void isValidPath() {
     assertTrue(argumentHandler.isValidPath("aaa"));
-    assertTrue(argumentHandler.isValidPath("a_b"+ File.pathSeparator+"513b"));
+    assertTrue(argumentHandler.isValidPath("a_b"+ File.separator+"513b"));
     assertFalse(argumentHandler.isValidPath("bs.c"));
   }
 

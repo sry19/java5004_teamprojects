@@ -61,7 +61,7 @@ public class ArgumentHandler {
           this.log.log("CSV file was not provided");
         }
       } else if (args[i].equals("--output-dir")) { //similar to csv file
-        if (i + 1 < length) {
+        if (i + 1 < length && this.isValidPath(args[i+1])) {
           if (this.outputDir == null) {
             this.outputDir = args[i + 1];
             i += 1;
@@ -191,7 +191,7 @@ public class ArgumentHandler {
    * @return if path is valid
    */
   public boolean isValidPath(String filePath) {
-    String[] path = filePath.split(File.pathSeparator);
+    String[] path = filePath.split("[/\\\\]");
     for (int i = 0; i < path.length; i++) {
       String patternString = "[\\w\\d_]+";
       Pattern p = Pattern.compile(patternString);
