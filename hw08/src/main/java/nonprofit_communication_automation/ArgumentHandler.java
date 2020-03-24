@@ -5,36 +5,12 @@ package nonprofit_communication_automation;
  * Give feedback to the user.
  */
 
-/**
- * Error: --email provided but no --email-template was given.
- *
- * Usage:
- * --email Generate email messages. If this option is provided, then
- * --email-template must also be provided.
- * --email-template <path/to/file> A filename for the email template.
- * --letter Generate letters. If this option is provided, then
- * --letter-template must also be provided.
- * --letter-template <path/to/file> A filename for the letter
- * template.
- * --output-dir <path/to/folder> The folder to store all generated
- * files. This option is required.
- * --csv-file <path/to/folder> The CSV file to process. This option is
- * required.
- *
- * Examples:
- * --email --email-template email-template.txt --output-dir emails
- * --csv-file customer.csv
- * --letter --letter-template letter-template.txt --output-dir letters
- * --csv-file customer.csv
- */
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,8 +21,8 @@ import java.util.regex.Pattern;
  * example ".jpg". 8. argument is valid.
  */
 public class ArgumentHandler {
-  private String inputFile;
-  private ArrayList<String> inputFilePath;
+  private String csvFile;
+  private ArrayList<String> templateList;
   private String outputDir;
   protected Set<String> visitedLabel;
   protected Map<String,String> visitedTemplate;
@@ -56,8 +32,8 @@ public class ArgumentHandler {
    * Instantiates a new Argument handler.
    */
   public ArgumentHandler() {
-    this.inputFilePath = new ArrayList<>();
-    this.inputFile = null;
+    this.templateList = new ArrayList<>();
+    this.csvFile = null;
     this.outputDir = null;
     this.visitedLabel = new HashSet<>();
     this.visitedTemplate = new HashMap<>();
@@ -67,7 +43,6 @@ public class ArgumentHandler {
   /**
    * Command line parser.
    *
-   * @param args the args
    * @return the boolean
    */
   public boolean commandLineParser(String[] args) {
@@ -76,8 +51,8 @@ public class ArgumentHandler {
     while (i < length) {
       if (args[i].equals("--csv-file")) {
         if (i + 1 < length && this.isValidCSVFile(args[i + 1])) {
-          if (this.inputFile == null) {
-            this.inputFile = args[i + 1];
+          if (this.csvFile == null) {
+            this.csvFile = args[i + 1];
             i += 1;
           } else {
             this.log.log("CSV file has already provided");
@@ -129,7 +104,7 @@ public class ArgumentHandler {
 
   public boolean labelParser(String label) {
     if (this.visitedTemplate.containsKey(label)) {
-      this.inputFilePath.add(this.visitedTemplate.get(label));
+      this.templateList.add(this.visitedTemplate.get(label));
       this.visitedTemplate.remove(label);
     } else {
       this.visitedLabel.add(label);
@@ -141,7 +116,7 @@ public class ArgumentHandler {
     if (this.visitedLabel.contains(label)) {
       this.visitedLabel.remove(label);
       if (i + 1 < args.length && isValidTXTFile(args[i + 1])) {
-        this.inputFilePath.add(args[i + 1]);
+        this.templateList.add(args[i + 1]);
       } else {
         return false;
       }
@@ -156,7 +131,7 @@ public class ArgumentHandler {
   }
 
   public boolean checkRequiredArguments() {
-    if (this.inputFile == null || this.outputDir == null || this.inputFilePath.isEmpty()) {
+    if (this.csvFile == null || this.outputDir == null || this.templateList.isEmpty()) {
       return false;
     }
     return true;
@@ -194,8 +169,8 @@ public class ArgumentHandler {
    *
    * @return the input file
    */
-  public String getInputFile() {
-    return inputFile;
+  public String getCsvFile() {
+    return this.csvFile;
   }
 
   /**
@@ -203,8 +178,8 @@ public class ArgumentHandler {
    *
    * @return the input file path
    */
-  public ArrayList<String> getInputFilePath() {
-    return inputFilePath;
+  public ArrayList<String> getTemplateList() {
+    return templateList;
   }
 
   /**
@@ -232,12 +207,12 @@ public class ArgumentHandler {
     this.visitedTemplate = visitedTemplate;
   }
 
-  public void setInputFile(String inputFile) {
-    this.inputFile = inputFile;
+  public void setCsvFile(String csvFile) {
+    this.csvFile = csvFile;
   }
 
-  public void setInputFilePath(ArrayList<String> inputFilePath) {
-    this.inputFilePath = inputFilePath;
+  public void setTemplateList(ArrayList<String> templateList) {
+    this.templateList = templateList;
   }
 
   public void setOutputDir(String outputDir) {
