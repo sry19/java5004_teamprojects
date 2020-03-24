@@ -231,10 +231,21 @@ public class ArgumentHandlerTest {
 
   @Test
   public void testEqual() {
+    String[] args = new String[]{"--csv-file", "abc.csv", "--output-dir", "dir", "--email-template",
+        "abs.txt", "--email"};
+    argumentHandler.commandLineParser(args);
+    argumentHandler1.commandLineParser(args);
+    assertEquals(argumentHandler, argumentHandler);
+    assertEquals(argumentHandler, argumentHandler1);
+    assertFalse(argumentHandler.equals(null));
   }
 
   @Test
   public void testHashcode() {
+    String[] args = new String[]{"--csv-file", "abc.csv", "--output-dir", "dir", "--email-template",
+        "abs.txt", "--email"};
+    argumentHandler.commandLineParser(args);
+    assertEquals(argumentHandler.hashCode(), argumentHandler.hashCode());
   }
 
   @Test
