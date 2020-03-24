@@ -2,103 +2,153 @@ package nonprofit_communication_automation;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import nonprofit_communication_automation.exceptions.InvalidCSVFileException;
+import nonprofit_communication_automation.exceptions.InvalidTemplateException;
 
 /**
- * The type Generator.
+ * Generator takes a input csv file, template and output directory to generate new txt.
  */
-public class Generator implements IGenerator {
+public class Generator {
 
-  private final ArrayList<String> templatePath;
-  private final String outputPath;
+  private String inputDataPath;
+  private List<String> templatePathList;
+  private String outputDir;
+  private IFormatter formatter;
 
   /**
-   * Instantiates a new Generator.
+   * Initialize the generator with a single template.
    *
-   * @param templatePath the template path
-   * @param outputPath   the output path
+   * @param inputDataPath inputDataPath
+   * @param templatePath  templatePath
+   * @param outputDir     outputDir
    */
-  public Generator(ArrayList<String> templatePath, String outputPath) {
-    this.templatePath = templatePath;
-    this.outputPath = outputPath;
+  public Generator(String inputDataPath, String templatePath, String outputDir,
+      IFormatter formatter) {
+    this.inputDataPath = inputDataPath;
+    this.templatePathList = new ArrayList<>();
+    this.templatePathList.add(templatePath);
+    this.outputDir = outputDir;
+    this.formatter = formatter;
   }
 
   /**
-   * generates a file with a template and a user data map corresponding the type with the value
+   * Initialize the generator with a list of template.
    *
-   * @param map          the map that correspond the type with the value
-   * @param templatePath the template path
-   * @param index        the index of the output file
-   * @throws FileNotFoundException the file not found exception
-   * @throws IOException           the io exception
+   * @param inputDataPath    inputDataPath
+   * @param templatePathList templatePathList
+   * @param outputDir        outputDir
    */
-  public void generate(Map<String,String> map, String templatePath, Integer index) throws FileNotFoundException, IOException {
+  public Generator(String inputDataPath, List<String> templatePathList, String outputDir,
+      IFormatter formatter) {
+    this.inputDataPath = inputDataPath;
+    this.templatePathList = templatePathList;
+    this.outputDir = outputDir;
+    this.formatter = formatter;
+  }
 
-    String outputFileName = outputFileName(templatePath, index);
-
-    BufferedReader templateFile = new BufferedReader(new FileReader(templatePath));
-    BufferedWriter outputFile = new BufferedWriter(new FileWriter(outputFileName));
-    String currentTemplateLine;
-    while ((currentTemplateLine = templateFile.readLine()) != null) {
-      String newLine = this.replaceTitle(map, currentTemplateLine);
-      outputFile.write(newLine);
+  /**
+   * generate all output.
+   *
+   * @throws IOException              if IO error happens.
+   * @throws InvalidCSVFileException  if the CSV File is invalid.
+   * @throws InvalidTemplateException if the variable in template is not in provided table.
+   */
+  public void generate() throws IOException, InvalidCSVFileException, InvalidTemplateException {
+    for (String template : templatePathList) {
+      generateSingleFile(template);
     }
   }
 
   /**
-   * generates the output file name based on the template name and the index of the user data
+   * Generate all output from a single template with provided csv file.
    *
-   * @param templatePath the template path
-   * @param index the index of the user data
-   * @return the output file name
+   * @param inputFilePath the input template.
+   * @throws IOException              if IO error happens.
+   * @throws InvalidCSVFileException  if the CSV File is invalid.
+   * @throws InvalidTemplateException if the variable in template is not in provided table.
    */
-  private String outputFileName(String templatePath, Integer index) {
-    int endPosition = templatePath.lastIndexOf(".");
-    int startPosition = templatePath.lastIndexOf(File.separator) + 1;
-    String filename = templatePath.substring(startPosition, endPosition);
-    String outputFileName = this.outputPath + File.separator + filename + index.toString() + "out.txt";
-    return outputFileName;
+  private void generateSingleFile(String inputFilePath)
+      throws IOException, InvalidCSVFileException, InvalidTemplateException {
+    CSVReader csvReader = new CSVReader(inputDataPath);
+
+    HashMap<String, String> map;
+    int i = 0;
+    while ((map = csvReader.readNextRow()) != null) {
+      String outputFilePath = getOutPutFilePath(inputFilePath, i);
+      generateSingleRow(inputFilePath, outputFilePath, map);
+      i++;
+    }
+    csvReader.close();
   }
 
   /**
-   * a iterator to generate all output files
+   * Create a output file from a single row.
    *
-   * @param dataPath the data path
-   * @throws FileNotFoundException the file not found exception
-   * @throws IOException           the io exception
+   * @param inputFilePath  the input file path.
+   * @param outputFilePath the output file path,
+   * @param map            the map to replace the placeholder.
+   * @throws IOException              if IO error happens.
+   * @throws InvalidTemplateException if the variable in template is not in provided table.
    */
-  public void iterator(String dataPath) throws FileNotFoundException, IOException{
-    BufferedReader dataFile = new BufferedReader(new FileReader(dataPath));
+  private void generateSingleRow(String inputFilePath, String outputFilePath,
+      HashMap<String, String> map)
+      throws IOException, InvalidTemplateException {
+    BufferedReader inputFile = new BufferedReader(new FileReader(inputFilePath));
+    BufferedWriter outputFile = new BufferedWriter(new FileWriter(outputFilePath));
     String line;
-    line = dataFile.readLine();
-    CSVParser csvParser = new CSVParser(line);
-    Integer i = 1;
-    while ((line = dataFile.readLine()) != null) {
-      Map<String,String> map = csvParser.dataMatcher(line);
-      for (String filePath : this.templatePath) {
-        this.generate(map, filePath, i);
-      }
-      i += 1;
+    while ((line = inputFile.readLine()) != null) {
+      outputFile.write(this.formatter.format(line, map));
     }
+    inputFile.close();
+    outputFile.close();
   }
 
   /**
-   * Replace title string.
+   * Generate output file name and path.
    *
-   * @param map                 the map
-   * @param currentTemplateLine the current template line
-   * @return the string
+   * @param inputFilePath the inputFilePath.
+   * @param i             the index to distinguish different output.
+   * @return outputFilePath.
    */
-  public String replaceTitle(Map<String,String> map, String currentTemplateLine) {
-    for (String key: map.keySet()) {
-      currentTemplateLine = currentTemplateLine.replaceAll("[[" + key + "]]", map.get(key));
+  private String getOutPutFilePath(String inputFilePath, int i) {
+    String filename = inputFilePath.split("[/\\\\]")[0].split("\\.")[0];
+    return this.outputDir + filename + "_" + i + "_.out.txt";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-    return currentTemplateLine;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Generator generator = (Generator) o;
+    return inputDataPath.equals(generator.inputDataPath) &&
+        templatePathList.equals(generator.templatePathList) &&
+        outputDir.equals(generator.outputDir) &&
+        formatter.equals(generator.formatter);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(inputDataPath, templatePathList, outputDir, formatter);
+  }
+
+  @Override
+  public String toString() {
+    return "Generator{" +
+        "inputDataPath='" + inputDataPath + '\'' +
+        ", templatePathList=" + templatePathList +
+        ", outputDir='" + outputDir + '\'' +
+        ", formatter=" + formatter +
+        '}';
   }
 }

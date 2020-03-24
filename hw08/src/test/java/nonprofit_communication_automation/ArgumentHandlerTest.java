@@ -94,7 +94,7 @@ public class ArgumentHandlerTest {
     argumentHandler1.setVisitedLabel(set);
     argumentHandler1.templateParser(args1, 5, "--email");
     assertTrue(argumentHandler1.getVisitedLabel().isEmpty());
-    assertEquals("[abs.txt]", argumentHandler1.getInputFilePath().toString());
+    assertEquals("[abs.txt]", argumentHandler1.getTemplateList().toString());
   }
 
   @Test
@@ -129,11 +129,11 @@ public class ArgumentHandlerTest {
 
   @Test
   public void checkRequiredArguments() {
-    argumentHandler.setInputFile("xxx");
+    argumentHandler.setCsvFile("xxx");
     argumentHandler.setOutputDir("yyy");
     ArrayList<String> array = new ArrayList<String>();
     array.add("zzz");
-    argumentHandler.setInputFilePath(array);
+    argumentHandler.setTemplateList(array);
     assertTrue(argumentHandler.checkRequiredArguments());
   }
 
@@ -142,22 +142,22 @@ public class ArgumentHandlerTest {
     argumentHandler.setOutputDir("yyy");
     ArrayList<String> array = new ArrayList<String>();
     array.add("zzz");
-    argumentHandler.setInputFilePath(array);
+    argumentHandler.setTemplateList(array);
     assertFalse(argumentHandler.checkRequiredArguments());
   }
 
   @Test
   public void invalidCheckRequiredArguments2() {
-    argumentHandler.setInputFile("xxx");
+    argumentHandler.setCsvFile("xxx");
     ArrayList<String> array = new ArrayList<String>();
     array.add("zzz");
-    argumentHandler.setInputFilePath(array);
+    argumentHandler.setTemplateList(array);
     assertFalse(argumentHandler.checkRequiredArguments());
   }
 
   @Test
   public void invalidCheckRequiredArguments3() {
-    argumentHandler.setInputFile("xxx");
+    argumentHandler.setCsvFile("xxx");
     argumentHandler.setOutputDir("yyy");
     assertFalse(argumentHandler.checkRequiredArguments());
   }
@@ -171,16 +171,16 @@ public class ArgumentHandlerTest {
 
   @Test
   public void getInputFile() {
-    argumentHandler.setInputFile("zxc");
-    assertEquals("zxc", argumentHandler.getInputFile());
+    argumentHandler.setCsvFile("zxc");
+    assertEquals("zxc", argumentHandler.getCsvFile());
   }
 
   @Test
   public void getInputFilePath() {
     ArrayList<String> arrayList = new ArrayList<>();
     arrayList.add("xxx");
-    argumentHandler.setInputFilePath(arrayList);
-    assertEquals("[xxx]", argumentHandler.getInputFilePath().toString());
+    argumentHandler.setTemplateList(arrayList);
+    assertEquals("[xxx]", argumentHandler.getTemplateList().toString());
   }
 
   @Test

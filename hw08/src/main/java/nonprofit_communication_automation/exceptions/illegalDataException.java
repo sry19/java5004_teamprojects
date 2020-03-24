@@ -1,4 +1,4 @@
-package nonprofit_communication_automation;
+package nonprofit_communication_automation.exceptions;
 
 public class illegalDataException extends RuntimeException{
 
