@@ -1,6 +1,5 @@
 package nonprofit_communication_automation;
 
-import com.sun.tools.classfile.ConstantPool.CPRefInfo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import nonprofit_communication_automation.exceptions.InvalidCSVFileException;
