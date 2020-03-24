@@ -61,7 +61,7 @@ public class ArgumentHandler {
           this.log.log("CSV file was not provided");
         }
       } else if (args[i].equals("--output-dir")) {
-        if (i + 1 < length && this.isValidPath(args[i + 1])) {
+        if (i + 1 < length) {
           if (this.outputDir == null) {
             this.outputDir = args[i + 1];
             i += 1;
@@ -88,16 +88,16 @@ public class ArgumentHandler {
     }
     if (!this.visitedLabel.isEmpty()) {
       this.log.log("lack template");
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("lack template");
     } else if (!this.visitedTemplate.isEmpty()) {
       this.log.log("lack label");
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("lack label");
     } else {
       if (checkRequiredArguments() && this.log.isEmpty()) {
         return true;
       } else {
         this.log.log("required fields missed");
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("required fields missed");
       }
     }
   }
@@ -138,14 +138,14 @@ public class ArgumentHandler {
   }
 
   public boolean isValidCSVFile(String filename) {
-    String patternString = "[^.]+(\\.csv)$";
+    String patternString = ".+\\.csv$";
     Pattern p = Pattern.compile(patternString);
     Matcher matcher = p.matcher(filename);
     return matcher.matches();
   }
 
   private boolean isValidTXTFile(String filename) {
-    String patternString = "[^.]+(\\.txt)$";
+    String patternString = ".+\\.txt$";
     Pattern p = Pattern.compile(patternString);
     Matcher matcher = p.matcher(filename);
     return matcher.matches();

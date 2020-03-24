@@ -208,6 +208,6 @@ public class ArgumentHandlerTest {
   @Test
   public void isValidCSVFile() {
     assertTrue(argumentHandler.isValidCSVFile("xxx.csv"));
-    assertFalse(argumentHandler.isValidCSVFile("asd.sd.csv"));
+    assertTrue(argumentHandler.isValidCSVFile("asd.sd.csv"));
   }
 }

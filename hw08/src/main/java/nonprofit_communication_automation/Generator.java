@@ -77,36 +77,37 @@ public class Generator {
   private void generateSingleFile(String inputFilePath)
       throws IOException, InvalidCSVFileException, InvalidTemplateException {
     CSVReader csvReader = new CSVReader(inputDataPath);
+    BufferedReader inputFile = new BufferedReader(new FileReader(inputFilePath));
 
     HashMap<String, String> map;
     int i = 0;
     while ((map = csvReader.readNextRow()) != null) {
       String outputFilePath = getOutPutFilePath(inputFilePath, i);
-      generateSingleRow(inputFilePath, outputFilePath, map);
+      generateSingleRow(inputFile, outputFilePath, map);
       i++;
     }
     csvReader.close();
+    inputFile.close();
   }
 
   /**
    * Create a output file from a single row.
    *
-   * @param inputFilePath  the input file path.
+   * @param inputFile      the input file buffer.
    * @param outputFilePath the output file path,
    * @param map            the map to replace the placeholder.
    * @throws IOException              if IO error happens.
    * @throws InvalidTemplateException if the variable in template is not in provided table.
    */
-  private void generateSingleRow(String inputFilePath, String outputFilePath,
+  private void generateSingleRow(BufferedReader inputFile, String outputFilePath,
       HashMap<String, String> map)
       throws IOException, InvalidTemplateException {
-    BufferedReader inputFile = new BufferedReader(new FileReader(inputFilePath));
+    System.out.println(outputFilePath);
     BufferedWriter outputFile = new BufferedWriter(new FileWriter(outputFilePath));
     String line;
     while ((line = inputFile.readLine()) != null) {
-      outputFile.write(this.formatter.format(line, map));
+      outputFile.write(this.formatter.format(line, map) + "\n");
     }
-    inputFile.close();
     outputFile.close();
   }
 
@@ -118,7 +119,8 @@ public class Generator {
    * @return outputFilePath.
    */
   private String getOutPutFilePath(String inputFilePath, int i) {
-    String filename = inputFilePath.split("[/\\\\]")[0].split("\\.")[0];
+    String[] splits = inputFilePath.split("[/\\\\]");
+    String filename = splits[splits.length-1].split("\\.")[0];
     return this.outputDir + filename + "_" + i + "_.out.txt";
   }
 
