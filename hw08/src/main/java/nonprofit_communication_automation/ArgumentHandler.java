@@ -28,7 +28,12 @@ package nonprofit_communication_automation;
  * --csv-file customer.csv
  */
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +48,9 @@ public class ArgumentHandler {
   private String inputFile;
   private ArrayList<String> inputFilePath;
   private String outputDir;
+  protected Set<String> visitedLabel;
+  protected Map<String,String> visitedTemplate;
+  private ErrorLogger log;
 
   /**
    * Instantiates a new Argument handler.
@@ -51,6 +59,9 @@ public class ArgumentHandler {
     this.inputFilePath = new ArrayList<>();
     this.inputFile = null;
     this.outputDir = null;
+    this.visitedLabel = new HashSet<>();
+    this.visitedTemplate = new HashMap<>();
+    this.log = new ErrorLogger();
   }
 
   /**
@@ -63,49 +74,95 @@ public class ArgumentHandler {
     int length = args.length;
     int i = 0;
     while (i < length) {
-      if (args[i] == "--csv-file") {
-        if (i+1 < length && isValidCSVFile(args[i+1])) {
-          if (inputFile == null) {
-            inputFile = args[i + 1];
+      if (args[i].equals("--csv-file")) {
+        if (i + 1 < length && this.isValidCSVFile(args[i + 1])) {
+          if (this.inputFile == null) {
+            this.inputFile = args[i + 1];
             i += 1;
           } else {
-            throw new IllegalArgumentException("CSV file has already provided");
-          }
-        }else {
-            throw new IllegalArgumentException("CSV file was not provided");
-          }
-      }
-      else if (args[i] == "--output-dir") {
-        if (i+1 < length && isValidPath(args[i+1])) {
-          if (outputDir == null) {
-            outputDir = args[i + 1];
-            i += 1;
-          } else {
-            throw new IllegalArgumentException("output directory has already provided");
+            this.log.log("CSV file has already provided");
           }
         } else {
-          throw new IllegalArgumentException("output directory was not provided");
+          this.log.log("CSV file was not provided");
+        }
+      } else if (args[i].equals("--output-dir")) {
+        if (i + 1 < length && this.isValidPath(args[i + 1])) {
+          if (this.outputDir == null) {
+            this.outputDir = args[i + 1];
+            i += 1;
+          } else {
+            this.log.log("output directory has already provided");
+          }
+        } else {
+          this.log.log("output directory was not provided");
+        }
+      } else {
+        Pattern pattern = Pattern.compile("(--.+)-template");
+        Matcher matcher = pattern.matcher(args[i]);
+        if (matcher.matches()) { // args[i] = xx-template
+          if (this.templateParser(args, i, matcher.group(1))) {
+            i += 1;
+          } else {
+            this.log.log("no template files");
+          }
+        } else { // args[i] = xx
+          this.labelParser(args[i]);
         }
       }
-      else if (args[i].matches(".*-template")) {
-        throw new IllegalArgumentException("template was given without a label");
-      }
-      else if (i+2 < length && args[i+1] == args[i] + "-template" && isValidTXTFile(args[i+2])) {
-        inputFilePath.add(args[i+2]);
-        i += 2;
-      }
-      else {
-        throw new IllegalArgumentException("label provided, but no template");
+      i += 1;
+    }
+    if (!this.visitedLabel.isEmpty()) {
+      this.log.log("lack template");
+      throw new IllegalArgumentException();
+    } else if (!this.visitedTemplate.isEmpty()) {
+      this.log.log("lack label");
+      throw new IllegalArgumentException();
+    } else {
+      if (checkRequiredArguments() && this.log.isEmpty()) {
+        return true;
+      } else {
+        this.log.log("required fields missed");
+        throw new IllegalArgumentException();
       }
     }
+  }
 
-    if (inputFile == null || outputDir == null || inputFilePath.equals(new ArrayList<>())) {
-      throw new IllegalArgumentException("required fields missed");
+  public boolean labelParser(String label) {
+    if (this.visitedTemplate.containsKey(label)) {
+      this.inputFilePath.add(this.visitedTemplate.get(label));
+      this.visitedTemplate.remove(label);
+    } else {
+      this.visitedLabel.add(label);
     }
     return true;
   }
 
-  private boolean isValidCSVFile(String filename) {
+  public boolean templateParser(String[] args, int i, String label) {
+    if (this.visitedLabel.contains(label)) {
+      this.visitedLabel.remove(label);
+      if (i + 1 < args.length && isValidTXTFile(args[i + 1])) {
+        this.inputFilePath.add(args[i + 1]);
+      } else {
+        return false;
+      }
+    } else {
+      if (i + 1 < args.length && isValidTXTFile(args[i + 1])) {
+        this.visitedTemplate.put(label, args[i + 1]);
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public boolean checkRequiredArguments() {
+    if (this.inputFile == null || this.outputDir == null || this.inputFilePath.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+  public boolean isValidCSVFile(String filename) {
     String patternString = "[^.]+(\\.csv)$";
     Pattern p = Pattern.compile(patternString);
     Matcher matcher = p.matcher(filename);
@@ -119,7 +176,16 @@ public class ArgumentHandler {
     return matcher.matches();
   }
 
-  private boolean isValidPath(String filePath) {
+  public boolean isValidPath(String filePath) {
+    String[] path = filePath.split(File.pathSeparator);
+    for (int i = 0; i < path.length; i++) {
+      String patternString = "[\\w\\d_]+";
+      Pattern p = Pattern.compile(patternString);
+      Matcher matcher = p.matcher(path[i]);
+      if (!matcher.matches()) {
+        return false;
+      }
+    }
     return true;
   }
 
@@ -150,4 +216,31 @@ public class ArgumentHandler {
     return outputDir;
   }
 
+  public Set<String> getVisitedLabel() {
+    return visitedLabel;
+  }
+
+  public Map<String, String> getVisitedTemplate() {
+    return visitedTemplate;
+  }
+
+  public void setVisitedLabel(Set<String> visitedLabel) {
+    this.visitedLabel = visitedLabel;
+  }
+
+  public void setVisitedTemplate(Map<String, String> visitedTemplate) {
+    this.visitedTemplate = visitedTemplate;
+  }
+
+  public void setInputFile(String inputFile) {
+    this.inputFile = inputFile;
+  }
+
+  public void setInputFilePath(ArrayList<String> inputFilePath) {
+    this.inputFilePath = inputFilePath;
+  }
+
+  public void setOutputDir(String outputDir) {
+    this.outputDir = outputDir;
+  }
 }
