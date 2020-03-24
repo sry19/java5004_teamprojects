@@ -2,6 +2,7 @@ package nonprofit_communication_automation;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -100,7 +101,6 @@ public class Generator {
   private void generateSingleRow(String inputFilePath, String outputFilePath,
       HashMap<String, String> map)
       throws IOException, InvalidTemplateException {
-    System.out.println(outputFilePath);
     BufferedReader inputFile = new BufferedReader(new FileReader(inputFilePath));
     BufferedWriter outputFile = new BufferedWriter(new FileWriter(outputFilePath));
     String line;
