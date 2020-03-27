@@ -5,7 +5,4 @@ public class Reader {
   //csv comes in with a header
   // for modification
 
-  public static interface IReader {
-
-  }
 }

@@ -1,10 +1,12 @@
 package view;
 
+// Mainly deal with sorting and display.
+
 public class TodoList implements IItemList {
 
   @Override
   public void sort() {
-    //comparator is general
+    // might need to pass field to comparator??
   }
 
   @Override

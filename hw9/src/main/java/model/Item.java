@@ -2,12 +2,7 @@ package model;
 
 public abstract class Item {
 
-  //should be in model
-  public static class Writer {
+  private Comparator comparator;
 
-  }
-
-  public static interface IWriter {
-
-  }
+  // Might need to implement an helper method for filtering.
 }
