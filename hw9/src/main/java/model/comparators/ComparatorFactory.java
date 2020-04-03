@@ -1,6 +1,4 @@
-package model.Comparators;
-
-import java.util.Comparator;
+package model.comparators;
 
 public class ComparatorFactory extends AbstractComparator {
 
@@ -9,7 +7,6 @@ public class ComparatorFactory extends AbstractComparator {
       case Constants.DATE:
         return new DateComparator();
       case Constants.PRIORITY:
-        return new PriorityComparator();
       default:
         return new PriorityComparator();
     }

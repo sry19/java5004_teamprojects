@@ -1,4 +1,4 @@
-package model;
+package model.optiondata;
 
 import java.util.ArrayList;
 

@@ -1,10 +1,10 @@
 package view;
+import model.IItem;
 
-// Mainly deal with sorting and display.
-public interface IItemList {
+public interface IItemList<T> {
 
-  void sort();
+  void appendItem(T item);
 
-  void display();
+  void sort(String name);
 
 }

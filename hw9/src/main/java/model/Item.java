@@ -1,8 +1,7 @@
 package model;
 
+import model.comparators.DateComparator;
+
 public abstract class Item {
 
-  private Comparator comparator;
-
-  // Might need to implement an helper method for filtering.
 }
