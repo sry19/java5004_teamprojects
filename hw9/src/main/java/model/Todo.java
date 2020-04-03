@@ -1,6 +1,7 @@
 package model;
 
 
+import exceptions.InvalidItemException;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ public class Todo extends Item implements IItem {
   private int id;
   private static final String NOT_FILLED = "?";
 
-  public Todo(int id, String text, String completed, String due, String priority, String category) throws InvalidItemException{
+  public Todo(int id, String text, String completed, String due, String priority, String category) throws InvalidItemException {
     this.id = id;
     this.text = this.checkText(text);
     this.completed = this.checkCompleted(completed);
