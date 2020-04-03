@@ -14,4 +14,7 @@ public class OptionNames {
     return matches;
   }
 
+  //make it more friendly
+  //put in one big file and attach to command line parser
+
 }
