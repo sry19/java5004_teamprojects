@@ -1,10 +1,15 @@
 package view;
 
-// Mainly deal with sorting and display.
+// Yiyu and Ruoyun are modifying the same file
 
 import exceptions.IllegalTodoException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.text.ParseException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import model.comparators.AbstractComparator;
 import model.comparators.ComparatorFactory;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -29,7 +34,7 @@ public class TodoList extends ItemList<Todo> {
 
   //can i use builder pattern?
   public void add(String text, String completed, String due, String priority, String category)
-      throws IOException {
+      throws IOException, ParseException {
     int newId = this.itemArrayList.get(-1).getId() + 1;
     while (this.usedId.contains(newId)) {
       newId += 1;
@@ -74,15 +79,24 @@ public class TodoList extends ItemList<Todo> {
   //pass in option.getName()
   @Override
   public void sort(String type) {
-    ComparatorFactory.makeComparator(type);
-
-    //
-    // might need to pass field to comparator??
-    // use a factory to create comparator, then pass to sort
+    AbstractComparator todoComparator = ComparatorFactory.makeComparator(type);
+    Collections.sort(this.itemArrayList, todoComparator);
   }
 
-  @Override
-  public void display() {  //having it here, so that we can format options the way we want
+  //@Override   /////
+  public void display(String filepath) {
+        try (BufferedReader inputFile = new BufferedReader(new FileReader(filepath))) {
+          String line;
+          String temp = inputFile.readLine();  //read the first line and not use it
+          while ((line = inputFile.readLine()) != null) {
+            System.out.println(line);  //starting printing from line 2
+          }
+        } catch (FileNotFoundException fnfe) {
+          System.out.println("File not found!" + fnfe.getMessage());
+          fnfe.printStackTrace();
+        } catch (IOException ioe) {
+          System.out.println("Something went wrong!" + ioe.getMessage());
+        }
   }
 
   @Override

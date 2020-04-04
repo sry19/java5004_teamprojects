@@ -2,6 +2,8 @@ package model;
 
 
 import exceptions.InvalidItemException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -14,7 +16,8 @@ public class Todo extends Item implements IItem {
   private int id;
   private static final String NOT_FILLED = "?";
 
-  public Todo(int id, String text, String completed, String due, String priority, String category) throws InvalidItemException {
+  public Todo(int id, String text, String completed, String due, String priority, String category)
+      throws InvalidItemException, ParseException {
     this.id = id;
     this.text = this.checkText(text);
     this.completed = this.checkCompleted(completed);
@@ -23,7 +26,7 @@ public class Todo extends Item implements IItem {
     this.category = this.checkCategory(category);
   }
 
-  public Todo(HashMap<String,String> todo) throws InvalidItemException{
+  public Todo(HashMap<String,String> todo) throws InvalidItemException, ParseException {
     for (String field: todo.keySet()) {
       if (field.equals("id")) {
         this.id = this.checkID(todo.get(field));
@@ -41,14 +44,23 @@ public class Todo extends Item implements IItem {
     }
   }
 
-  private static Date generateDue(String due) {
-    //check date. If not valid, throw exception
-    String[] time = due.split("/");
-    int year = Integer.parseInt(time[2]);
-    int month = Integer.parseInt(time[0]);
-    int date = Integer.parseInt(time[1]);
-    Date newDate = new Date(year,month,date);
-    return newDate;
+  private static Date generateDue(String due) throws ParseException {
+    if (due == null) {
+      return null;
+    } else {
+      try {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        Date javaDate = format.parse(due);
+        String[] time = due.split("/");
+        int year = Integer.parseInt(time[2]);
+        int month = Integer.parseInt(time[0]);
+        int date = Integer.parseInt(time[1]);
+        Date newDate = new Date(year, month, date);
+        return newDate;
+      } catch (ParseException e) {
+        throw new ParseException("Date must be in format of MM/dd/yyyy", 1);  //TODO: can we extend parse exception?
+      }
+    }
   }
 
   public void setCompleted(boolean completed) {
@@ -74,7 +86,7 @@ public class Todo extends Item implements IItem {
     return p;
   }
 
-  public Date checkDue(String due) {
+  public Date checkDue(String due) throws ParseException {
     if (due.equals(NOT_FILLED)) {
       return null;
     } else {

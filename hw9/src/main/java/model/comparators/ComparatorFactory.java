@@ -1,6 +1,6 @@
 package model.comparators;
 
-public class ComparatorFactory extends AbstractComparator {
+public class ComparatorFactory {
 
   public static AbstractComparator makeComparator(String name) {
     switch (name) {

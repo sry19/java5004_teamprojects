@@ -1,5 +1,8 @@
 package model.comparators;
 
-public abstract class AbstractComparator {
+import java.util.Comparator;
+import model.Todo;
+
+public abstract class AbstractComparator implements Comparator<Todo> {
 
 }
