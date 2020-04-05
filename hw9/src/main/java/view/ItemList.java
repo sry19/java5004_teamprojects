@@ -17,7 +17,7 @@ public class ItemList<T> implements IItemList<T> {
   }
 
   @Override
-  public void filter(int status) {
+  public void filter() {
 
   }
 

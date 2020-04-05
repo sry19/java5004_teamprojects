@@ -7,15 +7,11 @@ import controller.commandlineparser.ICommandLine;
 import controller.commandlineparser.Option;
 import exceptions.IllegalTodoException;
 import exceptions.InvalidCSVFileException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import model.IItem;
-import model.comparators.AbstractComparator;
 import model.comparators.ComparatorFactory;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -29,6 +25,10 @@ import model.reader.CSVReader;
 import model.reader.IReader;
 import model.writer.CSVWriter;
 import model.writer.IWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Collections;
+import model.comparators.AbstractComparator;
 
 public class TodoList extends ItemList<Todo> {
   String filepath;
@@ -62,12 +62,13 @@ public class TodoList extends ItemList<Todo> {
       return 0;
     }
   }
+  
 
   private void add(String id, String text, String completed, String due, String priority, String category) {
     Todo newItem = new Todo(Integer.parseInt(id),text,completed,due,priority,category);
     super.appendItem(newItem);
   }
-
+  
   //TODO:.
   //can i use builder pattern?
   public void addTodo(String description)

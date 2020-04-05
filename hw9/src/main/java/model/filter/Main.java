@@ -6,8 +6,11 @@ import model.Todo;
 public class Main {
   public static void main(String[] args) {
     ArrayList<Todo> todos = new ArrayList<>();
+    ArrayList<String> categories = new ArrayList<>();
+    categories.add("work");
+    categories.add("business");
 
-    FilterSettings both = new FilterSettings.Builder().incompleteTodo().selectCategory("Work").build();
+    FilterSettings both = new FilterSettings.Builder().incompleteTodo().selectCategory(categories).build();
     FilterPlatform platform = new FilterPlatform(both);
     platform.filter(todos);
 
@@ -15,7 +18,7 @@ public class Main {
     FilterPlatform platform1 = new FilterPlatform(both);
     platform.filter(todos);
 
-    FilterSettings only12 = new FilterSettings.Builder().selectCategory("Work").build();
+    FilterSettings only12 = new FilterSettings.Builder().selectCategory(categories).build();
     FilterPlatform platform3 = new FilterPlatform(both);
     platform.filter(todos);
   }

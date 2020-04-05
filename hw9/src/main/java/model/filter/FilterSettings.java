@@ -1,11 +1,12 @@
 package model.filter;
 
 import java.util.ArrayList;
+import java.util.List;
 import model.Todo;
 
 public class FilterSettings {
   private boolean incomplete;
-  private String category;
+  private List<String> category;
 
   private FilterSettings(Builder builder) {
     this.incomplete = builder.incompleteEnabled;
@@ -26,7 +27,7 @@ public class FilterSettings {
 
   public static class Builder {
     private boolean incompleteEnabled;
-    private String categorySelected;
+    private List<String> categorySelected;
 
     public Builder() {
       this.incompleteEnabled = false;
@@ -38,7 +39,7 @@ public class FilterSettings {
       return this;
     }
 
-    public Builder selectCategory(String categorySelected) {
+    public Builder selectCategory(List<String> categorySelected) {
       this.categorySelected = categorySelected;
       return this;
     }

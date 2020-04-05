@@ -14,8 +14,10 @@ public class CSVWriter implements IWriter {
   // what if the user forgets to close
   public CSVWriter(String filepath) throws IOException {
     this.filepath = filepath;
-    this.writer = new BufferedWriter(new FileWriter(filepath,true));
+    this.writer = new BufferedWriter(new FileWriter(filepath));
   }
+
+  // no need
   // how to close the file if there is an exception
   public void addLine(String newLine) throws IOException {
     try {
@@ -23,6 +25,10 @@ public class CSVWriter implements IWriter {
     } catch (IOException ioe) {
       this.closeFile();
     }
+  }
+
+  public void write(String content) throws IOException {
+    this.writer.write(content);
   }
 
   public void closeFile() throws IOException {

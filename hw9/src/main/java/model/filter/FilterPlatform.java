@@ -11,7 +11,6 @@ public class FilterPlatform {
   }
 
   public IFilter filter(ArrayList<Todo> todos) {
-    IFilter advancedFilter = this.settings.buildAdvancedFilter(todos);
-    return advancedFilter;
+    return this.settings.buildAdvancedFilter(todos);
   }
 }
