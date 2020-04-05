@@ -25,6 +25,10 @@ import model.reader.CSVReader;
 import model.reader.IReader;
 import model.writer.CSVWriter;
 import model.writer.IWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Collections;
+import model.comparators.AbstractComparator;
 
 public class TodoList extends ItemList<Todo> {
   String filepath;
@@ -58,12 +62,13 @@ public class TodoList extends ItemList<Todo> {
       return 0;
     }
   }
+  
 
   private void add(String id, String text, String completed, String due, String priority, String category) {
     Todo newItem = new Todo(Integer.parseInt(id),text,completed,due,priority,category);
     super.appendItem(newItem);
   }
-
+  
   //TODO:.
   //can i use builder pattern?
   public void addTodo(String description)
@@ -110,18 +115,26 @@ public class TodoList extends ItemList<Todo> {
     }
   }
 
-  //pass in option.getName()
   @Override
   public void sort(String type) {
-    ComparatorFactory.makeComparator(type);
-
-    //
-    // might need to pass field to comparator??
-    // use a factory to create comparator, then pass to sort
+    AbstractComparator todoComparator = ComparatorFactory.makeComparator(type);
+    Collections.sort(this.itemArrayList, todoComparator);
   }
 
-  @Override
-  public void display() {  //having it here, so that we can format options the way we want
+  //@Override   /////
+  public void display(String filepath) {
+    try (BufferedReader inputFile = new BufferedReader(new FileReader(filepath))) {
+      String line;
+      String temp = inputFile.readLine();  //read the first line and not use it
+      while ((line = inputFile.readLine()) != null) {
+        System.out.println(line);  //starting printing from line 2
+      }
+    } catch (FileNotFoundException fnfe) {
+      System.out.println("File not found!" + fnfe.getMessage());
+      fnfe.printStackTrace();
+    } catch (IOException ioe) {
+      System.out.println("Something went wrong!" + ioe.getMessage());
+    }
   }
 
   @Override

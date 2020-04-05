@@ -1,7 +1,7 @@
 package exceptions;
 
 public class InvalidItemException extends IllegalArgumentException{
-  //Yiyu asks: why two kinds?
+
   public InvalidItemException() {
     super();
   }

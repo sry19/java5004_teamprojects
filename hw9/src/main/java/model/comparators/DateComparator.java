@@ -3,7 +3,7 @@ package model.comparators;
 import java.util.Comparator;
 import model.Todo;
 
-public class DateComparator extends AbstractComparator implements Comparator<Todo> {
+public class DateComparator extends AbstractComparator {
 
   //HOW TO RESOLVE DATE
   @Override
