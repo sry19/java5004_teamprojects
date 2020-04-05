@@ -30,5 +30,5 @@ public interface ICommandLine {
    * @param optionName provide the option name.
    * @return the option values.
    */
-  List<String> getOptionValues(String optionName);
+  String[] getOptionValues(String optionName);
 }

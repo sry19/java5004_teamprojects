@@ -1,6 +1,13 @@
 package controller.commandlineparser;
 
-import java.util.List;
+
+import controller.commandlineparser.exceptions.InvalidSplitterException;
+import java.util.Arrays;
+import tools.ArrayHelper;
+
+/**
+ * A single option class that contains all information related to one option.
+ */
 
 public class Option {
 
@@ -9,24 +16,318 @@ public class Option {
   private boolean required;
   private boolean hasSubArg;
   private boolean hasSubArgs;
-  private boolean subArgRequired;
-  private boolean argName;
+  private String argSplitter;
+  //  private boolean subArgRequired;
+  private String argName;
   private String value;
-  private List<String> values;
+  private String[] values;
+  private String[] dependencies;
 
-  public Option(String name, String description, boolean required, boolean hasSubArg,
-      boolean hasSubArgs, boolean subArgRequired, boolean argName, String value,
-      List<String> values) {
-    this.name = name;
-    this.description = description;
-    this.required = required;
-    this.hasSubArg = hasSubArg;
-    this.hasSubArgs = hasSubArgs;
-    this.subArgRequired = subArgRequired;
-    this.argName = argName;
+  /**
+   * Use builder to build an Option.
+   *
+   * @param builder the builder to build the option.
+   */
+  private Option(Builder builder) {
+    this.name = builder.name;
+    this.description = builder.description;
+    this.required = builder.required;
+    this.hasSubArg = builder.hasSubArg;
+    this.hasSubArgs = builder.hasSubArgs;
+    this.argSplitter = builder.argSplitter;
+//    this.subArgRequired = builder.subArgRequired;
+    this.argName = builder.argName;
+    this.dependencies = builder.dependencies;
+  }
+
+  /**
+   * Use anther option to build the current Option. Mainly for update values.
+   *
+   * @param option the option to build on.
+   */
+  private Option(Option option, String value) {
+    this.name = option.name;
+    this.description = option.description;
+    this.required = option.required;
+    this.hasSubArg = option.hasSubArg;
+    this.hasSubArgs = option.hasSubArgs;
+    this.argSplitter = option.argSplitter;
+//    this.subArgRequired = option.subArgRequired;
+    this.argName = option.argName;
+    this.dependencies = option.dependencies;
     this.value = value;
+    this.values = new String[1];
+    this.values[0] = value;
+  }
+
+  /**
+   * Use anther option to build the current Option. Mainly for update values.
+   *
+   * @param option the option to build on.
+   */
+  private Option(Option option, String[] values) {
+    this.name = option.name;
+    this.description = option.description;
+    this.required = option.required;
+    this.hasSubArg = option.hasSubArg;
+    this.hasSubArgs = option.hasSubArgs;
+    this.argSplitter = option.argSplitter;
+//    this.subArgRequired = option.subArgRequired;
+    this.argName = option.argName;
+    this.dependencies = option.dependencies;
+    this.value = values[0];
     this.values = values;
   }
 
+  /**
+   * Given a row argument of an option. Update its value and return a new option object.
+   *
+   * @param option the option to update value.
+   * @param arg    the raw argument input.
+   * @return a new option with updated value.
+   */
+  public Option updateValue(Option option, String arg) {
+    if (option.hasSubArgs) {
+      return this.addValues(option, arg.split(this.argSplitter));
+    } else if (option.hasSubArg) {
+      return this.addValue(option, arg);
+    }
+    return option;
+  }
 
+  /**
+   * Add a value to an Option in a immutable way.
+   *
+   * @param option the option to add value.
+   * @param value  the value to add.
+   * @return a new Option with updated value.
+   */
+  private Option addValue(Option option, String value) {
+    return new Option(option, value);
+  }
+
+  /**
+   * Add a value to an Option in a immutable way.
+   *
+   * @param option the option to add value.
+   * @param values the values to add.
+   * @return a new Option with updated value.
+   */
+  private Option addValues(Option option, String[] values) {
+    return new Option(option, ArrayHelper.combineAll(option.getValues(), values));
+  }
+
+  /**
+   * @return name.
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return description.
+   */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * @return required.
+   */
+  public boolean isRequired() {
+    return required;
+  }
+
+  /**
+   * @return hasSubArg.
+   */
+  public boolean hasSubArg() {
+    return hasSubArg;
+  }
+
+  /**
+   * @return hasSubArgs.
+   */
+  public boolean hasSubArgs() {
+    return hasSubArgs;
+  }
+
+  /**
+   * @return argSplitter.
+   */
+  public String getArgSplitter() {
+    return argSplitter;
+  }
+
+//  /**
+//   * @return isSubArgRequired.
+//   */
+//  public boolean isSubArgRequired() {
+//    return subArgRequired;
+//  }
+
+  /**
+   * @return argName
+   */
+  public String getArgName() {
+    return argName;
+  }
+
+  /**
+   * @return value
+   */
+  public String getValue() {
+    return value;
+  }
+
+  /**
+   * @return values
+   */
+  public String[] getValues() {
+    return values;
+  }
+
+  /**
+   * @return dependencies.
+   */
+  public String[] getDependencies() {
+    return dependencies;
+  }
+
+  /**
+   * Nested Builder class.
+   */
+  public static class Builder {
+
+    private String name;
+    private String description;
+    private boolean required;
+    private boolean hasSubArg;
+    private boolean hasSubArgs;
+    private String argSplitter;
+    //    private boolean subArgRequired;
+    private String argName;
+    private String[] dependencies;
+
+    /**
+     * Use constructor to initialize the name of the option.
+     *
+     * @param name the name is the identifier of an option. Like "--csv-file".
+     */
+    public Builder(String name) {
+      this.name = name;
+    }
+
+    /**
+     * @param description a short description of the option.
+     * @return the builder.
+     */
+    public Builder addDescription(String description) {
+      this.description = description;
+      return this;
+    }
+
+    /**
+     * @param required if the option is required.
+     * @return the builder.
+     */
+    public Builder addRequired(boolean required) {
+      this.required = required;
+      return this;
+    }
+
+    /**
+     * @param hasSubArg does the option has a sub argument.
+     * @return the builder.
+     */
+    public Builder addHasSubArg(boolean hasSubArg) {
+      this.hasSubArg = hasSubArg;
+      return this;
+    }
+
+    /**
+     * @param hasSubArgs does the option has multiple sub arguments.
+     * @return the builder.
+     */
+    public Builder addHasSubArgs(boolean hasSubArgs) {
+      this.hasSubArgs = hasSubArgs;
+      return this;
+    }
+
+    /**
+     * @param argSplitter the splitter for multiple arguments.
+     * @return the builder.
+     * @throws InvalidSplitterException if the argSplitter is invalid.
+     */
+    public Builder addArgSplitter(String argSplitter) throws InvalidSplitterException {
+      this.checkArgSplitter(argSplitter);
+      this.argSplitter = argSplitter;
+      return this;
+    }
+
+//    /**
+//     * @param subArgRequired is sub argument required for the option.
+//     * @return the builder.
+//     */
+//    public Builder addSubArgRequired(boolean subArgRequired) {
+//      this.subArgRequired = subArgRequired;
+//      return this;
+//    }
+
+    /**
+     * @param argName a name or description for the options's argument.
+     * @return the builder.
+     */
+    public Builder addArgName(String argName) {
+      this.argName = argName;
+      return this;
+    }
+
+    /**
+     * @param dependencies which options the current option depends on.
+     * @return the builder.
+     */
+    public Builder addDependencies(String[] dependencies) {
+      this.dependencies = dependencies;
+      return this;
+    }
+
+    /**
+     * Build the Option.
+     *
+     * @return a new Option.
+     */
+    public Option build() {
+      return new Option(this);
+    }
+
+    /**
+     * Check if the argSplitter is valid.
+     *
+     * @param argSplitter the provided argSplitter.
+     * @throws InvalidSplitterException if the argSplitter is invalid.
+     */
+    private void checkArgSplitter(String argSplitter) throws InvalidSplitterException {
+      if (argSplitter.trim().length() == 0) {
+        throw new InvalidSplitterException();
+      }
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "Option{" +
+        "name='" + name + '\'' +
+        ", description='" + description + '\'' +
+        ", required=" + required +
+        ", hasSubArg=" + hasSubArg +
+        ", hasSubArgs=" + hasSubArgs +
+        ", argSplitter='" + argSplitter + '\'' +
+//        ", subArgRequired=" + subArgRequired +
+        ", argName='" + argName + '\'' +
+        ", value='" + value + '\'' +
+        ", values=" + Arrays.toString(values) +
+        ", dependencies=" + Arrays.toString(dependencies) +
+        '}';
+  }
 }
