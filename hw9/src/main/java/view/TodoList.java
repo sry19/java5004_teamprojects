@@ -7,6 +7,7 @@ import controller.commandlineparser.ICommandLine;
 import controller.commandlineparser.Option;
 import exceptions.IllegalTodoException;
 import exceptions.InvalidCSVFileException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -64,7 +65,8 @@ public class TodoList extends ItemList<Todo> {
   }
   
 
-  private void add(String id, String text, String completed, String due, String priority, String category) {
+  private void add(String id, String text, String completed, String due, String priority, String category)
+      throws ParseException {
     Todo newItem = new Todo(Integer.parseInt(id),text,completed,due,priority,category);
     super.appendItem(newItem);
   }
@@ -72,7 +74,7 @@ public class TodoList extends ItemList<Todo> {
   //TODO:.
   //can i use builder pattern?
   public void addTodo(String description)
-      throws IOException {
+      throws IOException, ParseException {
     int newId = this.numOftodo + 1;
     String[] columns = description.split(SPLIT_REGEX);
     if (columns.length != TodoList.COLUMN - 1) {
