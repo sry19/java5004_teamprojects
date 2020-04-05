@@ -1,10 +1,8 @@
 package view;
 
 import java.util.ArrayList;
-import model.IItem;
-import model.Item;
 
-public class ItemList<T> implements IItemList<T> {
+public abstract class ItemList<T> implements IItemList<T> {
   ArrayList<T> itemArrayList;
 
   public ItemList() {
@@ -14,16 +12,6 @@ public class ItemList<T> implements IItemList<T> {
   @Override
   public void appendItem(T item) {
     itemArrayList.add(item);
-  }
-
-  @Override
-  public void filter() {
-
-  }
-
-  @Override
-  public void sort(String item) {
-
   }
 
   @Override
