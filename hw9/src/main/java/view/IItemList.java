@@ -5,7 +5,7 @@ public interface IItemList<T> {
 
   void appendItem(T item);
 
-  void filter(int status);
+  void filter();
 
   void sort(String name);
 
