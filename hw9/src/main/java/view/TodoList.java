@@ -1,31 +1,19 @@
 package view;
 
-// Mainly deal with sorting and display.
-
-import controller.commandlineparser.CommandLine;
 import controller.commandlineparser.ICommandLine;
-import controller.commandlineparser.Option;
-import exceptions.IllegalTodoException;
 import exceptions.InvalidCSVFileException;
 import java.text.ParseException;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import model.IItem;
 import model.comparators.ComparatorFactory;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import model.Todo;
 import model.filter.FilterPlatform;
 import model.filter.FilterSettings;
 import model.reader.CSVReader;
 import model.reader.IReader;
-import model.writer.CSVWriter;
-import model.writer.IWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Collections;
@@ -123,11 +111,11 @@ public class TodoList extends ItemList<Todo> {
     Collections.sort(this.itemArrayList, todoComparator);
   }
 
-  //@Override   /////
-  public void display(String filepath) {
-    try (BufferedReader inputFile = new BufferedReader(new FileReader(filepath))) {
+  @Override
+  public void display() {
+    try (BufferedReader inputFile = new BufferedReader(new FileReader(this.filepath))) {
       String line;
-      String temp = inputFile.readLine();  //read the first line and not use it
+      inputFile.readLine();  //read the first line and not use it
       while ((line = inputFile.readLine()) != null) {
         System.out.println(line);  //starting printing from line 2
       }
@@ -140,8 +128,7 @@ public class TodoList extends ItemList<Todo> {
   }
 
   @Override
-  public void filter() {
-    ICommandLine commandLine = new CommandLine();
+  public void filter(ICommandLine commandLine) {
     if (commandLine.hasOption("--show-incomplete") && commandLine.hasOption("--show-category")) {
       FilterSettings both = new FilterSettings.Builder().incompleteTodo().selectCategory(commandLine.getOptionValues("--show-category")).build();
       FilterPlatform platform1 = new FilterPlatform(both);

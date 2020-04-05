@@ -6,7 +6,7 @@ import model.Todo;
 
 public class FilterSettings {
   private boolean incomplete;
-  private List<String> category;
+  private String[] category;
 
   private FilterSettings(Builder builder) {
     this.incomplete = builder.incompleteEnabled;
@@ -27,7 +27,7 @@ public class FilterSettings {
 
   public static class Builder {
     private boolean incompleteEnabled;
-    private List<String> categorySelected;
+    private String[] categorySelected;
 
     public Builder() {
       this.incompleteEnabled = false;
@@ -39,7 +39,7 @@ public class FilterSettings {
       return this;
     }
 
-    public Builder selectCategory(List<String> categorySelected) {
+    public Builder selectCategory(String[] categorySelected) {
       this.categorySelected = categorySelected;
       return this;
     }
