@@ -12,7 +12,7 @@ import model.Todo;
 public class CategoryFilter extends Filter {
 
   /**
-   * The Categories.
+   * The Categories used to filter.
    */
   String[] categories;
 
@@ -25,6 +25,12 @@ public class CategoryFilter extends Filter {
     this.categories = categories;
   }
 
+  /**
+   * filters the ArrayList
+   *
+   * @param itemList an ArrayList of todos
+   * @return a filtered ArrayList of todos
+   */
   @Override
   public ArrayList<Todo> filter(ArrayList<Todo> itemList) {
     Set<String> categorySet = new HashSet<>();
@@ -41,7 +47,7 @@ public class CategoryFilter extends Filter {
   }
 
   /**
-   * equals
+   * equals method
    *
    * @param o object
    * @return if they are equal, return true. Otherwise, return false
@@ -72,9 +78,9 @@ public class CategoryFilter extends Filter {
   }
 
   /**
-   * return to string
+   * displays
    *
-   * @return string
+   * @return a string representing the object
    */
   @Override
   public String toString() {
