@@ -4,6 +4,9 @@ import controller.OptionConstants;
 
 public class ComparatorFactory {
 
+  private ComparatorFactory() {
+  }
+
   /**
    * Returns a specific comparator based on the name passed in
    *
