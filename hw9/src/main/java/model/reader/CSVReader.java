@@ -115,6 +115,12 @@ public class CSVReader implements IReader {
     return fieldNum;
   }
 
+  /**
+   * equals
+   *
+   * @param o object
+   * @return if they are equal, return true. Otherwise, return false
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -127,6 +133,11 @@ public class CSVReader implements IReader {
     return inputDataPath.equals(csvReader.inputDataPath);
   }
 
+  /**
+   * computes hashcode
+   *
+   * @return hashcode
+   */
   @Override
   public int hashCode() {
     int result = Objects.hash(data, getFieldNum());
@@ -134,6 +145,11 @@ public class CSVReader implements IReader {
     return result;
   }
 
+  /**
+   * return to string
+   *
+   * @return string
+   */
   @Override
   public String toString() {
     return "CSVReader{" +
