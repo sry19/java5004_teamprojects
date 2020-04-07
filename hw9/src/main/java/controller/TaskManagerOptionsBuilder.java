@@ -20,68 +20,88 @@ public class TaskManagerOptionsBuilder extends Options {
    * @throws OptionExistedException   if the Options already existed in the container.
    */
   public static Options build() throws InvalidSplitterException, OptionExistedException {
-    Option option1 = new Option.Builder("--csv-file")
-        .addDescription("The CSV file containing the todos. This option is required.")
-        .addRequired(true).addHasSubArg(true).addHasSubArgs(false).addArgName("<path/to/file>")
+    Option option1 = new Option.Builder(OptionConstants.CSV_FILE)
+        .addDescription(OptionConstants.CSV_FILE_DES)
+        .addRequired(true).addHasSubArg(true).addHasSubArgs(false)
+        .addArgName(OptionConstants.CSV_FILE_ARG_NAME)
         .build();
 
-    Option option2 = new Option.Builder("--add-todo").addDescription(
-        "Add a new todo. If this option is provided, then --todo-text must also be provided.")
+    Option option2 = new Option.Builder(OptionConstants.ADD_TODO)
+        .addDescription(OptionConstants.ADD_TODO_DES)
         .addRequired(false).addHasSubArg(false).addHasSubArgs(false)
-        .addDependencies(new String[]{"--todo-text"})
+        .addDependencies(new String[]{OptionConstants.TODO_TEXT})
         .build();
 
-    Option option3 = new Option.Builder("--todo-text").addDescription("A description of the todo.")
+    Option option3 = new Option.Builder(OptionConstants.TODO_TEXT)
+        .addDescription(OptionConstants.TODO_TEXT_DES)
         .addRequired(false).addHasSubArg(true).addHasSubArgs(false)
-        .addArgName("<description of todo>").addDependencies(new String[]{"--add-todo"}).build();
+        .addArgName(OptionConstants.TODO_TEXT_ARG_NAME)
+        .addDependencies(new String[]{OptionConstants.ADD_TODO})
+        .build();
 
-    Option option4 = new Option.Builder("--completed")
-        .addDescription("(Optional) Sets the completed status of a new todo to true.")
+    Option option4 = new Option.Builder(OptionConstants.COMPLETED)
+        .addDescription(OptionConstants.COMPLETED_DES)
         .addRequired(false).addHasSubArg(false).addHasSubArgs(false)
-        .addDependencies(new String[]{"--add-todo"}).build();
+        .addDependencies(new String[]{OptionConstants.ADD_TODO})
+        .build();
 
-    Option option5 = new Option.Builder("--due").addDescription(
-        "(Optional) Sets the due date of a new todo. You may choose how the date should be formatted.")
-        .addRequired(false).addHasSubArg(true).addHasSubArgs(false).addArgName("<due date>")
-        .addDependencies(new String[]{"--add-todo"}).build();
+    Option option5 = new Option.Builder(OptionConstants.DUE)
+        .addDescription(OptionConstants.DUE_DES)
+        .addRequired(false).addHasSubArg(true).addHasSubArgs(false)
+        .addArgName(OptionConstants.DUE_ARG_NAME)
+        .addDependencies(new String[]{OptionConstants.ADD_TODO})
+        .build();
 
-    Option option6 = new Option.Builder("--priority")
-        .addDescription("(Optional) Sets the priority of a new todo. The value can be 1, 2, or 3.")
-        .addRequired(false).addHasSubArg(true).addHasSubArgs(false).addArgName("<1, 2, or 3>")
-        .addDependencies(new String[]{"--add-todo"}).build();
+    Option option6 = new Option.Builder(OptionConstants.PRIORITY)
+        .addDescription(OptionConstants.PRIORITY_DES)
+        .addRequired(false).addHasSubArg(true).addHasSubArgs(false)
+        .addArgName(OptionConstants.PRIORITY_ARG_NAME)
+        .addDependencies(new String[]{OptionConstants.ADD_TODO})
+        .build();
 
-    Option option7 = new Option.Builder("--category").addDescription(
-        "(Optional) Sets the category of a new todo. The value can be any String. Categories do not need to be pre-defined.")
-        .addRequired(false).addHasSubArg(true).addHasSubArgs(false).addArgName("<a category name>")
-        .addDependencies(new String[]{"--add-todo"}).build();
+    Option option7 = new Option.Builder(OptionConstants.CATEGORY)
+        .addDescription(OptionConstants.CATEGORY_DES)
+        .addRequired(false).addHasSubArg(true).addHasSubArgs(false)
+        .addArgName(OptionConstants.CATEGORY_ARG_NAME)
+        .addDependencies(new String[]{OptionConstants.ADD_TODO})
+        .build();
 
-    Option option8 = new Option.Builder("--complete-todo")
-        .addDescription("Mark the Todo with the provided ID as complete.").addRequired(false)
-        .addHasSubArg(true).addHasSubArgs(true).addArgSplitter(",").addArgName("<id1,id2>").build();
+    Option option8 = new Option.Builder(OptionConstants.COMPLETE_TODO)
+        .addDescription(OptionConstants.COMPLETE_TODO_DES)
+        .addRequired(false).addHasSubArg(true).addHasSubArgs(true)
+        .addArgSplitter(OptionConstants.ARG_SPLITTER)
+        .addArgName(OptionConstants.COMPLETE_TODO_ARG_NAME)
+        .build();
 
-    Option option9 = new Option.Builder("--display").addDescription(
-        "Display todos. If none of the following optional arguments are provided, displays all todos.")
-        .addRequired(false).addHasSubArg(false).addHasSubArgs(false).build();
-
-    Option option10 = new Option.Builder("--show-incomplete").addDescription(
-        "(Optional) If --display is provided, only incomplete todos should be displayed.")
+    Option option9 = new Option.Builder(OptionConstants.DISPLAY)
+        .addDescription(OptionConstants.DISPLAY_DES)
         .addRequired(false).addHasSubArg(false).addHasSubArgs(false)
-        .addDependencies(new String[]{"--display"}).build();
+        .build();
 
-    Option option11 = new Option.Builder("--show-category").addDescription(
-        "(Optional) If --display is provided, only todos with the given category should be displayed.")
-        .addRequired(false).addHasSubArg(true).addHasSubArgs(false).addArgName("<category>")
-        .addDependencies(new String[]{"--display"}).build();
-
-    Option option12 = new Option.Builder("--sort-by-date").addDescription(
-        "(Optional) If --display is provided, sort the list of todos by date order (ascending). Cannot be combined with --sort-by-priority.")
+    Option option10 = new Option.Builder(OptionConstants.SHOW_INCOMPLETE)
+        .addDescription(OptionConstants.SHOW_INCOMPLETE_DES)
         .addRequired(false).addHasSubArg(false).addHasSubArgs(false)
-        .addDependencies(new String[]{"--display"}).build();
+        .addDependencies(new String[]{OptionConstants.DISPLAY})
+        .build();
 
-    Option option13 = new Option.Builder("--sort-by-priority").addDescription(
-        "(Optional) If --display is provided, sort the list of todos by priority (ascending). Cannot be combined with --sort-by-date.")
+    Option option11 = new Option.Builder(OptionConstants.SHOW_CATEGORY)
+        .addDescription(OptionConstants.SHOW_CATEGORY_DES)
+        .addRequired(false).addHasSubArg(true).addHasSubArgs(false)
+        .addArgName(OptionConstants.SHOW_CATEGORY_ARG_NAME)
+        .addDependencies(new String[]{OptionConstants.DISPLAY})
+        .build();
+
+    Option option12 = new Option.Builder(OptionConstants.SORT_BY_DATE)
+        .addDescription(OptionConstants.SORT_BY_DATE_DES)
         .addRequired(false).addHasSubArg(false).addHasSubArgs(false)
-        .addDependencies(new String[]{"--display"}).build();
+        .addDependencies(new String[]{OptionConstants.DISPLAY})
+        .build();
+
+    Option option13 = new Option.Builder(OptionConstants.SORT_BY_PRIORITY)
+        .addDescription(OptionConstants.SORT_BY_PRIORITY_DES)
+        .addRequired(false).addHasSubArg(false).addHasSubArgs(false)
+        .addDependencies(new String[]{OptionConstants.DISPLAY})
+        .build();
 
     Options options = new Options();
     options.addOption(option1);

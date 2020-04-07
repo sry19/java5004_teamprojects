@@ -119,4 +119,6 @@ public class CommandLineParser implements ICommandLineParser {
     }
     return true;
   }
+
+  //TODO check conflicts
 }
