@@ -12,31 +12,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TodoTest {
-  //Calendar cal1, cal2, cal3, cal4;
-  //Date date1, date2, date3, date4;
   Todo todo1, todo2, todo3, todo4, todo5, todo6, todo7, todo8, todo9;
 
   @Before
   public void setUp() throws Exception {
-//    cal1 = Calendar.getInstance();
-//    cal2 = Calendar.getInstance();
-//    cal3 = Calendar.getInstance();
-//    cal4 = Calendar.getInstance();
-//    cal1.set(2000, 11, 21);
-//    cal2.set(2000, 11, 21);
-//    cal3.set(2001, 11, 30);  //what if 40?
-//    cal4.set(2010, 3, 9);
-//    date1 = cal1.getTime();
-//    date2 = cal2.getTime();
-//    date3 = cal3.getTime();
-//    date4 = cal4.getTime();
     todo1 = new Todo(1, "Finish hw9", "false", "3/22/2020", "1", "school");
-    todo3 = new Todo(1, "Finish hw8", "false", "3/22/2020", "1", "?");
-    todo4 = new Todo(1, "Finish hw9", "false", "3/22/2020", "1", "school");
-    todo5 = new Todo(1, "Finish hw9", "true", "3/22/2020", "1", "school");
-    todo6 = new Todo(1, "Finish hw9", "false", "3/21/2020", "1", "school");
-    todo8 = new Todo(1, "Finish hw9", "false", "3/22/2020", "3", "school");
-    todo9 = new Todo(1, "Finish hw9", "false", "3/22/2020", "1", "health");
+    todo3 = new Todo(1, "Finish hw8", "false", "03/22/2020", "1", "?");
+    todo4 = new Todo(1, "Finish hw9", "false", "03/22/2020", "1", "school");
+    todo5 = new Todo(1, "Finish hw9", "true", "03/22/2020", "1", "school");
+    todo6 = new Todo(1, "Finish hw9", "false", "03/21/2020", "1", "school");
+    todo8 = new Todo(1, "Finish hw9", "false", "03/22/2020", "3", "school");
+    todo9 = new Todo(1, "Finish hw9", "false", "03/22/2020", "1", "health");
     todo7 = new Todo(2, "eating salmon", "false", "?", "1", "school");
     HashMap<String, String> todoMap2 = new HashMap<>();
     todoMap2.put("id", "2");
@@ -56,7 +42,7 @@ public class TodoTest {
 
   @Test (expected = InvalidItemException.class)
   public void checkEmptyText() throws ParseException {
-    todo3 = new Todo(2, "?", "false", "3/22/2020", "1", "school");
+    todo3 = new Todo(2, "?", "false", "03/22/2020", "1", "school");
   }
 
   @Test
@@ -110,8 +96,7 @@ public class TodoTest {
 
   @Test
   public void testToString() {
-    String expected = "\"1\",\"Finish hw9\",\"false\",\"Wed Apr 22 12:30:30 PDT 2020\","
-        + "\"1\",\"school\"";
+    String expected = "\"1\",\"Finish hw9\",\"false\",\"2020-03-22\",\"1\",\"school\"";
     assertEquals(expected, todo1.toString());
   }
 
@@ -119,9 +104,9 @@ public class TodoTest {
   public void testEqual() {
     ArrayList a = new ArrayList();
     assertTrue(todo1.equals(todo1));
-    assertTrue(todo1.equals(todo4));
     System.out.println(todo1);
     System.out.println(todo4);
+    assertTrue(todo1.equals(todo4));
     assertFalse(todo1.equals(null));
     assertFalse(todo1.equals(todo2));
     assertFalse(todo1.equals(todo3));

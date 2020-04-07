@@ -17,15 +17,12 @@ import java.io.FileReader;
 import java.util.Collections;
 import model.comparators.AbstractComparator;
 
-/**
- * The concrete to-do list class
- */
 public class TodoList extends ItemList<Todo> {
   String filepath;
   int numOftodo;
   static final int COLUMN = 6;
   static final String TRIM_REGEX = "^\"|\"$";
-  static final String SPLIT_REGEX = "\",";
+  static final String SPLIT_REGEX = "\",\"";
   static final String EMPTY = "";
   static final String HEADER = "“id”,”text”,”completed”,”due”,”priority”,”category”";
 
@@ -91,9 +88,14 @@ public class TodoList extends ItemList<Todo> {
   public void addTodo(String text, String completed, String due, String priority, String category)
       throws IOException, ParseException {
     int newId = this.numOftodo + 1;
+    String[] columns = description.split(SPLIT_REGEX);
+    if (columns.length != TodoList.COLUMN - 1) {
+      throw new InvalidCSVFileException();
+    }
     Todo newItem = new Todo(newId,text,completed,due,
         priority,category);
     this.appendItem(newItem);
+    this.numOftodo++;
   }
 
   /**
@@ -105,7 +107,6 @@ public class TodoList extends ItemList<Todo> {
   private static String trimQuotes(String s) {
     return s.replaceAll(TRIM_REGEX, EMPTY);
   }
-
 
   /**
    * set the completion status of a to-do
@@ -124,17 +125,26 @@ public class TodoList extends ItemList<Todo> {
 
    /**
    * Update the CSV
-   * @param filepath the file path
    */
   public void updateCSV() {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filepath))) {
       writer.write(HEADER);
+      writer.write("\n");
       for (Todo todo : super.itemArrayList) {
         writer.write(todo.toString());
+        writer.write("\n");
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * @param commandLine
+   */
+  @Override
+  public void filter(ICommandLine commandLine) {
+
   }
 
   /**
