@@ -45,5 +45,4 @@ public class OptionConstants {
 
   public static final String ARG_SPLITTER = ",";
   public static final String DEFAULT_VAL = "?";
-
 }
