@@ -21,17 +21,17 @@ public class Main {
 //    date2 = LocalDate.of(2020, 2, 2);
 //    System.out.println(date1.compareTo(date2));
 
-    ICommandLine commandLine = new CommandLine();
-    IItemList iItemList = new TodoList(commandLine);
-    iItemList.add(String filename);
-
-    iItemList.appendItem();
-    iItemList.completed();
-
-    iItemList.write();
-    //iItemList.filter();
-    //iItemList.sort();
-    iItemList.display();
+//    ICommandLine commandLine = new CommandLine();
+//    IItemList iItemList = new TodoList(commandLine);
+//    iItemList.add(String filename);
+//
+//    iItemList.appendItem();
+//    iItemList.completed();
+//
+//    iItemList.write();
+//    //iItemList.filter();
+//    //iItemList.sort();
+//    iItemList.display();
 
 
   }

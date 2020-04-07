@@ -1,4 +1,4 @@
-package model.filter1;
+package model.filter;
 
 
 import java.util.ArrayList;

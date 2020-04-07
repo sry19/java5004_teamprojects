@@ -1,4 +1,4 @@
-package model.filter1;
+package model.filter;
 
 import static org.junit.Assert.*;
 
@@ -14,11 +14,11 @@ public class FilterFactoryTest {
   @Test
   public void makeFilter() {
     CategoryFilter categoryFilter = new CategoryFilter(new String[]{"work"});
-    assertEquals(FilterFactory.makeFilter("--show-category", null, new String[]{"work"}),categoryFilter);
+    assertEquals(FilterFactory.makeFilter("--show-category",  new String[]{"work"}),categoryFilter);
 
     IncompleteFilter incompleteFilter = new IncompleteFilter();
-    assertEquals(FilterFactory.makeFilter("--show-incomplete",null,null),incompleteFilter);
+    assertEquals(FilterFactory.makeFilter("--show-incomplete",null),incompleteFilter);
 
-    assertNull(FilterFactory.makeFilter("--option",null,null));
+    assertNull(FilterFactory.makeFilter("--option",null));
   }
 }
