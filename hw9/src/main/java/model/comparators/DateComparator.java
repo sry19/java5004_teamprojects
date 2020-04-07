@@ -13,6 +13,11 @@ public class DateComparator extends AbstractComparator {
    */
   @Override
   public int compare(Todo o1, Todo o2) {
+    if (o1.getDue() == null) {
+      return 1;
+    } else if (o2.getDue() == null) {
+      return -1;
+    }
     if (o1.getDue().equals(o2.getDue())) {
       return Integer.compare(o1.getId(), o2.getId());
     } else {

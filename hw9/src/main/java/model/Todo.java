@@ -155,7 +155,7 @@ public class Todo extends Item implements IItem {
    * @throws ParseException if due cannot parse
    */
   public LocalDate checkDue(String due) throws ParseException {
-    if (due.equals(NOT_FILLED)) {
+    if (due.equals(NOT_FILLED) || due.equals(null)) {
       return null;
     } else {
       return generateDue(due);

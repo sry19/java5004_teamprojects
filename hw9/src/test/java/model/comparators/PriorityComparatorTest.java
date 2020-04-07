@@ -20,7 +20,7 @@ public class PriorityComparatorTest {
 
   @Test
   public void compare() {
-    assertTrue(comparator1.compare(todo1, todo2) == 1);
+    assertTrue(comparator1.compare(todo1, todo2) == -1);
     assertTrue(comparator1.compare(todo3, todo1) == 1);
   }
 
