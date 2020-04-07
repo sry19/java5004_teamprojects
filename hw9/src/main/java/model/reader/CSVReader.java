@@ -61,7 +61,7 @@ public class CSVReader implements IReader {
    */
   private HashMap<String, String> parseRow(String row) throws InvalidCSVFileException {
     HashMap<String, String> res = new HashMap<>();
-    String[] columns = row.split("\",");  // TODO might need to be improved
+    String[] columns = row.split("\",\"");  // TODO might need to be improved
     if (columns.length != this.fieldNum) {
       throw new InvalidCSVFileException();
     }
@@ -83,7 +83,7 @@ public class CSVReader implements IReader {
       throw new InvalidCSVFileException();
     }
 
-    this.fields = headRow.split("\",");
+    this.fields = headRow.split("\",\"");
     this.fieldNum = this.fields.length;
 
     for (int i = 0; i < this.fieldNum; i++) {

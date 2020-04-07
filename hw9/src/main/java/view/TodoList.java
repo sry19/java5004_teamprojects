@@ -15,6 +15,7 @@ import java.util.Collections;
 import model.comparators.AbstractComparator;
 
 public class TodoList extends ItemList<Todo> {
+
   String filepath;
   int numOftodo;
   static final int COLUMN = 6;
@@ -25,6 +26,7 @@ public class TodoList extends ItemList<Todo> {
 
   /**
    * To-do list constructor
+   *
    * @param filepath the file path
    * @throws IOException when file cannot be opened
    */
@@ -36,6 +38,7 @@ public class TodoList extends ItemList<Todo> {
 
   /**
    * Initialize the to-do array list
+   *
    * @return count of items
    * @throws IOException when file cannot open
    */
@@ -53,46 +56,51 @@ public class TodoList extends ItemList<Todo> {
       reader.close();
       return count;
     } catch (Exception e) {
+      System.out.println(e);
       return 0;
     }
   }
 
   /**
    * Add a to-do
-   * @param id to-do id
-   * @param text to-do text
+   *
+   * @param id        to-do id
+   * @param text      to-do text
    * @param completed if completed
-   * @param due due time
-   * @param priority priority of to-do
-   * @param category category of to-do
+   * @param due       due time
+   * @param priority  priority of to-do
+   * @param category  category of to-do
    * @throws ParseException when cannot parse
    */
-  private void add(String id, String text, String completed, String due, String priority, String category)
+  private void add(String id, String text, String completed, String due, String priority,
+      String category)
       throws ParseException {
-    Todo newItem = new Todo(Integer.parseInt(id),text,completed,due,priority,category);
+    Todo newItem = new Todo(Integer.parseInt(id), text, completed, due, priority, category);
     super.appendItem(newItem);
   }
 
   /**
    * constructs a new to-do
    *
-   * @param text a string
+   * @param text      a string
    * @param completed a string
-   * @param due a string
-   * @param priority a string
-   * @param category a string
+   * @param due       a string
+   * @param priority  a string
+   * @param category  a string
    * @throws ParseException
    */
   public void addTodo(String text, String completed, String due, String priority, String category)
       throws ParseException {
     int newId = this.numOftodo + 1;
-    Todo newItem = new Todo(newId,text,completed,due,priority,category);
+    System.out.println(this.numOftodo);
+    Todo newItem = new Todo(newId, text, completed, due, priority, category);
     this.appendItem(newItem);
     this.numOftodo++;
   }
 
   /**
    * set the completion status of a to-do
+   *
    * @param id the to-do id
    * @throws FileNotFoundException if id not found
    */
@@ -106,10 +114,11 @@ public class TodoList extends ItemList<Todo> {
     }
   }
 
-   /**
+  /**
    * Update the CSV
    */
   public void updateCSV() {
+    System.out.println(super.itemArrayList);
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filepath))) {
       writer.write(HEADER);
       writer.write("\n");
@@ -124,6 +133,7 @@ public class TodoList extends ItemList<Todo> {
 
   /**
    * Sort the to-dos
+   *
    * @param type the type to sort with
    */
   @Override
@@ -137,17 +147,18 @@ public class TodoList extends ItemList<Todo> {
    */
   @Override
   public void display() {
-    for (Todo todo: this.itemArrayList) {
+    for (Todo todo : this.itemArrayList) {
       System.out.println(todo.displayTodo());
     }
   }
 
   /**
    * filter for the sort type
-   * @param  values a HashMap whose key is the option name and whose values are string array
+   *
+   * @param values a HashMap whose key is the option name and whose values are string array
    */
   @Override
-  public void filter(HashMap<String,String[]> values) {
+  public void filter(HashMap<String, String[]> values) {
     TodoFilterStash filterStash = new TodoFilterStash(values);
     filterStash.produceFilters();
     this.itemArrayList = filterStash.filter(this.itemArrayList);
