@@ -1,7 +1,5 @@
 package model.comparators;
 
-import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
-import java.util.Comparator;
 import model.Todo;
 
 public class PriorityComparator extends AbstractComparator {
@@ -15,7 +13,7 @@ public class PriorityComparator extends AbstractComparator {
   @Override
   public int compare(Todo o1, Todo o2) {
     if (o1.getPriority() == o2.getPriority()) {
-      return Integer.compare(o1.getId(), o2.getId());  //ID should be unique
+      return Integer.compare(o1.getId(), o2.getId());
     } else {
       return Integer.compare(o1.getPriority(), o2.getPriority());
     }

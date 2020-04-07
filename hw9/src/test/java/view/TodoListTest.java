@@ -12,20 +12,7 @@ import org.junit.Test;
 
 public class TodoListTest {
 
-  Todo todo1, todo2, todo3, todo4, todo5, todo6, todo7, todo8, todo9;
-  TodoList list1, list2, list3;
-
-  @Before
-  public void setUp() throws Exception {
-    todo1 = new Todo(1, "Finish hw9", "false", "3/22/2020", "1", "school");
-    todo3 = new Todo(2, "Finish hw8", "false", "03/22/2019", "1", "?");
-    todo4 = new Todo(3, "Finish hw9", "false", "03/22/2020", "1", "school");
-    todo5 = new Todo(4, "Finish hw9", "true", "4/22/2020", "1", "school");
-    todo6 = new Todo(5, "Finish hw9", "false", "03/21/2020", "1", "school");
-    todo8 = new Todo(6, "Finish hw9", "false", "03/22/2020", "3", "school");
-    todo9 = new Todo(7, "Finish hw9", "false", "03/22/2020", "1", "health");
-    todo7 = new Todo(8, "eating salmon", "false", "?", "1", "school");
-  }
+  TodoList list1, list2;
 
   @Test
   public void addTodo() throws IOException, ParseException {
@@ -48,7 +35,6 @@ public class TodoListTest {
     list1.addTodo("Finish hw9", "false", "03/22/2020", "1", "school");
     list1.updateCSV();
   }
-
 
   @Test
   public void sortByPriority() throws IOException {
@@ -80,4 +66,5 @@ public class TodoListTest {
     hashMap.put("--show-incomplete", null);
     list1.filter(hashMap);
   }
+
 }

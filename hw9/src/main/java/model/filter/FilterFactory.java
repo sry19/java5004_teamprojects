@@ -7,6 +7,9 @@ import controller.OptionConstants;
  */
 public class FilterFactory {
 
+  /**
+   * Private constructor of filter factory
+   */
   private FilterFactory() {
   }
 
@@ -27,6 +30,5 @@ public class FilterFactory {
         return null;
     }
   }
-
 
 }

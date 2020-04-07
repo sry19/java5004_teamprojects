@@ -4,6 +4,9 @@ import controller.OptionConstants;
 
 public class ComparatorFactory {
 
+  /**
+   * Private constructor of comparator factory
+   */
   private ComparatorFactory() {
   }
 

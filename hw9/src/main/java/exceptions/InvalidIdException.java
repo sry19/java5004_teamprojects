@@ -1,4 +1,4 @@
-package controller.commandlineparser.exceptions;
+package exceptions;
 
 /**
  * The type Invalid id exception.
