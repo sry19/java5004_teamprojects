@@ -1,9 +1,7 @@
 package view;
 
-import controller.commandlineparser.ICommandLine;
 import exceptions.InvalidCSVFileException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import model.comparators.ComparatorFactory;
 import java.io.BufferedWriter;
@@ -11,9 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import model.Todo;
-import model.filter1.Filter;
-import model.filter1.FilterStash;
-import model.filter1.TodoFilterStash;
+import model.filter.TodoFilterStash;
 import model.reader.CSVReader;
 import model.reader.IReader;
 import java.io.BufferedReader;
@@ -60,18 +56,12 @@ public class TodoList extends ItemList<Todo> {
     Todo newItem = new Todo(Integer.parseInt(id),text,completed,due,priority,category);
     super.appendItem(newItem);
   }
-  
-  //TODO:.
-  //can i use builder pattern?
-  public void addTodo(String description)
+
+  public void addTodo(String text, String completed, String due, String priority, String category)
       throws IOException, ParseException {
     int newId = this.numOftodo + 1;
-    String[] columns = description.split(SPLIT_REGEX);
-    if (columns.length != TodoList.COLUMN - 1) {
-      throw new InvalidCSVFileException();
-    }
-    Todo newItem = new Todo(newId,trimQuotes(columns[0]),trimQuotes(columns[1]),trimQuotes(columns[2]),
-        trimQuotes(columns[3]),trimQuotes(columns[4]));
+    Todo newItem = new Todo(newId,text,completed,due,
+        priority,trimQuotes(category));
     this.appendItem(newItem);
   }
 
@@ -96,8 +86,8 @@ public class TodoList extends ItemList<Todo> {
     }
   }
 
-  public void updateCSV(String filepath) {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
+  public void updateCSV() {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filepath))) {
       writer.write(HEADER);
       for (Todo todo : super.itemArrayList) {
         writer.write(todo.toString());
@@ -130,8 +120,8 @@ public class TodoList extends ItemList<Todo> {
   }
 
   @Override
-  public void filter(ICommandLine commandLine) {
-    TodoFilterStash filterStash = new TodoFilterStash(commandLine);
+  public void filter(HashMap<String,String[]> values) {
+    TodoFilterStash filterStash = new TodoFilterStash(values);
     filterStash.produceFilters();
     this.itemArrayList = filterStash.filter(this.itemArrayList);
   }

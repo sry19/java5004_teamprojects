@@ -135,12 +135,52 @@ public class Todo extends Item implements IItem {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    Todo todo = (Todo) o;
+
+    if (completed != todo.completed) {
+      return false;
+    }
+    if (priority != todo.priority) {
+      return false;
+    }
+    if (id != todo.id) {
+      return false;
+    }
+    if (!text.equals(todo.text)) {
+      return false;
+    }
+    if (!due.equals(todo.due)) {
+      return false;
+    }
+    return category.equals(todo.category);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = text.hashCode();
+    result = 31 * result + (completed ? 1 : 0);
+    result = 31 * result + due.hashCode();
+    result = 31 * result + priority;
+    result = 31 * result + category.hashCode();
+    result = 31 * result + id;
+    return result;
+  }
+
+  @Override
   public String toString() {
-    return "\"" + id + "\",\"" +
+    return "[\"" + id + "\",\"" +
         text + "\",\"" +
         completed + "\",\"" +
         due + "\",\"" +
         priority + "\",\"" +
-        category + "\"";
+        category + "\"]";
   }
 }

@@ -22,4 +22,29 @@ public abstract class ItemList<T> implements IItemList<T> {
     this.itemArrayList.toString();
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    ItemList<?> itemList = (ItemList<?>) o;
+
+    return itemArrayList.equals(itemList.itemArrayList);
+  }
+
+  @Override
+  public int hashCode() {
+    return itemArrayList.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "ItemList{" +
+        "itemArrayList=" + itemArrayList +
+        '}';
+  }
 }
