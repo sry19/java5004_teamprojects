@@ -320,7 +320,7 @@ public class Todo extends Item implements IItem {
 
 
   /**
-   * Display todos
+   * Display to-dos
    *
    * @return the string
    */
