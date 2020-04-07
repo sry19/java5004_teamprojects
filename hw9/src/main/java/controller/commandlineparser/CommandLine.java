@@ -2,6 +2,7 @@ package controller.commandlineparser;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The default implementation of ICommandLine ADT.
@@ -50,5 +51,29 @@ public class CommandLine implements ICommandLine {
   @Override
   public String[] getOptionValues(String optionName) {
     return this.options.getOptionValues(optionName);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    CommandLine that = (CommandLine) o;
+    return options.equals(that.options);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(options);
+  }
+
+  @Override
+  public String toString() {
+    return "CommandLine{" +
+        "options=" + options +
+        '}';
   }
 }

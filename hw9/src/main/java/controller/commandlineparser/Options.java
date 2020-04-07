@@ -4,6 +4,7 @@ import controller.commandlineparser.exceptions.OptionExistedException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A container for a collection of options.
@@ -89,8 +90,10 @@ public class Options implements ICommandLine, Iterable<Option> {
    * Print the usage of the current options.
    */
   public void printUsage() {
-    // TODO print the usage of current options.
-    System.out.println("usage");
+    System.out.println("Option usage:\n");
+    for (Option option : this.optionMap.values()) {
+      option.printUsage();
+    }
   }
 
 
@@ -102,5 +105,29 @@ public class Options implements ICommandLine, Iterable<Option> {
   @Override
   public Iterator<Option> iterator() {
     return this.optionMap.values().iterator();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Options options = (Options) o;
+    return optionMap.equals(options.optionMap);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(optionMap);
+  }
+
+  @Override
+  public String toString() {
+    return "Options{" +
+        "optionMap=" + optionMap +
+        '}';
   }
 }
