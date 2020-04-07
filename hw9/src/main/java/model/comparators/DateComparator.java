@@ -5,23 +5,18 @@ import model.Todo;
 
 public class DateComparator extends AbstractComparator {
 
-  //HOW TO RESOLVE DATE
+  /**
+   * Compare two items by date
+   * @param o1 the first object
+   * @param o2 the second object
+   * @return positive if o1 is after o2, negative is o1 is before o2
+   */
   @Override
   public int compare(Todo o1, Todo o2) {
-    return o1.getDue().compareTo(o2.getDue());
-//    if ((dateParser(o2.getDate())[2]).equals((dateParser(o2.getDate())[2]))) {
-//      if ((dateParser(o1.getDate())[1]).equals((dateParser(o2.getDate())[1]))) {
-//        return ((dateParser(o1.getDate())[0]).compareTo((dateParser(o2.getDate())[0])));
-//      } else {
-//        return ((dateParser(o1.getDate())[1]).compareTo((dateParser(o2.getDate())[1])));
-//      }
-//      } else {
-//      return ((dateParser(o1.getDate())[2]).compareTo((dateParser(o2.getDate())[2])));
-//    }
+    if (o1.getDue().equals(o2.getDue())) {
+      return Integer.compare(o1.getId(), o2.getId());
+    } else {
+      return o1.getDue().compareTo(o2.getDue());
+    }
   }
-
-//  private String[] dateParser(String date) {
-//    String[] parsedDate = date.split("////");
-//    return parsedDate;
-//  }
 }

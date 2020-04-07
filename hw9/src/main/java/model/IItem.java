@@ -1,7 +1,7 @@
 package model;
 
-import java.util.HashMap;
-
+/**
+ * The item interface
+ */
 public interface IItem {
-
 }

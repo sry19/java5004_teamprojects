@@ -1,7 +1,7 @@
 package model;
 
-import model.comparators.DateComparator;
-
+/**
+ * The abstract item class
+ */
 public abstract class Item {
-
 }
