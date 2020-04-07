@@ -18,5 +18,5 @@ Reasoning:
 concrete filters would be used, but only make filters according to the command line arguments.
 * Using polymorphism to implement different concrete filters and store them in a filter stash.
 * Then we use Observer design pattern on a list of filters. For each filter, we invoke filter()
-zmethod and modify the same to-do List regardless of the order. 
+and modify the same to-do List regardless of the order. 
     
