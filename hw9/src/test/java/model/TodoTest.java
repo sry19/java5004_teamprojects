@@ -48,6 +48,8 @@ public class TodoTest {
   @Test
   public void checkPriority() throws ParseException {
     todo1.checkPriority("2");
+    todo1.checkPriority("?");
+    //todo1.checkPriority();
   }
   @Test (expected = InvalidItemException.class)
   public void checkLowPriority() throws ParseException {
@@ -96,8 +98,10 @@ public class TodoTest {
 
   @Test
   public void testToString() {
-    String expected = "\"1\",\"Finish hw9\",\"false\",\"03/22/2020\",\"1\",\"school\"";
-    assertEquals(expected, todo1.toString());
+    String expected1 = "\"1\",\"Finish hw9\",\"false\",\"03/22/2020\",\"1\",\"school\"";
+    assertEquals(expected1, todo1.toString());
+    String expected2 = "\"1\",\"Finish hw8\",\"false\",\"03/22/2020\",\"1\",\"?\"";
+    assertEquals(expected2, todo3.toString());
   }
 
   @Test
@@ -113,6 +117,7 @@ public class TodoTest {
     assertFalse(todo1.equals(todo5));
     assertFalse(todo1.equals(todo6));
     assertFalse(todo1.equals(todo8));
+    assertFalse(todo1.equals(todo7));
     assertFalse(todo1.equals(todo9));
     assertNotEquals(todo1, a);
   }

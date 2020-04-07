@@ -5,6 +5,12 @@ import controller.OptionConstants;
 public class ComparatorFactory {
 
   /**
+   * Private constructor of comparator factory
+   */
+  private ComparatorFactory() {
+  }
+
+  /**
    * Returns a specific comparator based on the name passed in
    *
    * @param name the element to compare for

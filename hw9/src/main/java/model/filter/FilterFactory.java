@@ -8,6 +8,12 @@ import controller.OptionConstants;
 public class FilterFactory {
 
   /**
+   * Private constructor of filter factory
+   */
+  private FilterFactory() {
+  }
+
+  /**
    * Make filter according to commandline arguments.
    *
    * @param name   the name
@@ -24,6 +30,5 @@ public class FilterFactory {
         return null;
     }
   }
-
 
 }

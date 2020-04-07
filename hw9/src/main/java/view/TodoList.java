@@ -1,10 +1,10 @@
 package view;
 
+import exceptions.InvalidIdException;
 import java.text.ParseException;
 import java.util.HashMap;
 import model.comparators.ComparatorFactory;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import model.Todo;
@@ -101,16 +101,16 @@ public class TodoList extends ItemList<Todo> {
    * set the completion status of a to-do
    *
    * @param id the to-do id
-   * @throws FileNotFoundException if id not found
+   * @throws InvalidIdException if id not found
    */
-  //how to change a specific line??
-  public void completed(int id) throws FileNotFoundException {
-    for (Todo todo : this.itemArrayList) {  //why this, and super in line 138?
+  public void completed(int id) throws InvalidIdException {
+    for (Todo todo : this.itemArrayList) {
       if (todo.getId() == id) {
         todo.setCompleted(true);
         return;
       }
     }
+    throw new InvalidIdException("id does not exist");
   }
 
   /**
@@ -146,8 +146,12 @@ public class TodoList extends ItemList<Todo> {
    */
   @Override
   public void display() {
-    for (Todo todo : this.itemArrayList) {
-      System.out.println(todo.displayTodo());
+    if (this.itemArrayList.isEmpty()) {
+      System.out.println("Sorry, no result found");
+    } else {
+      for (Todo todo : this.itemArrayList) {
+        System.out.println(todo.displayTodo());
+      }
     }
   }
 
