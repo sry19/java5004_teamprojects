@@ -3,6 +3,7 @@ package controller.commandlineparser;
 
 import controller.commandlineparser.exceptions.InvalidSplitterException;
 import java.util.Arrays;
+import java.util.Objects;
 import tools.ArrayHelper;
 
 /**
@@ -17,7 +18,6 @@ public class Option {
   private boolean hasSubArg;
   private boolean hasSubArgs;
   private String argSplitter;
-  //  private boolean subArgRequired;
   private String argName;
   private String value;
   private String[] values;
@@ -35,7 +35,6 @@ public class Option {
     this.hasSubArg = builder.hasSubArg;
     this.hasSubArgs = builder.hasSubArgs;
     this.argSplitter = builder.argSplitter;
-//    this.subArgRequired = builder.subArgRequired;
     this.argName = builder.argName;
     this.dependencies = builder.dependencies;
   }
@@ -52,7 +51,6 @@ public class Option {
     this.hasSubArg = option.hasSubArg;
     this.hasSubArgs = option.hasSubArgs;
     this.argSplitter = option.argSplitter;
-//    this.subArgRequired = option.subArgRequired;
     this.argName = option.argName;
     this.dependencies = option.dependencies;
     this.value = value;
@@ -72,7 +70,6 @@ public class Option {
     this.hasSubArg = option.hasSubArg;
     this.hasSubArgs = option.hasSubArgs;
     this.argSplitter = option.argSplitter;
-//    this.subArgRequired = option.subArgRequired;
     this.argName = option.argName;
     this.dependencies = option.dependencies;
     this.value = values[0];
@@ -82,39 +79,41 @@ public class Option {
   /**
    * Given a row argument of an option. Update its value and return a new option object.
    *
-   * @param option the option to update value.
-   * @param arg    the raw argument input.
+   * @param arg the raw argument input.
    * @return a new option with updated value.
    */
-  public Option updateValue(Option option, String arg) {
-    if (option.hasSubArgs) {
-      return this.addValues(option, arg.split(this.argSplitter));
-    } else if (option.hasSubArg) {
-      return this.addValue(option, arg);
+  public Option updateValue(String arg) {
+    if (this.hasSubArgs) {
+      return this.addValues(arg.split(this.getArgSplitter()));
+    } else {
+      return this.addValue(arg);
     }
-    return option;
+  }
+
+  public void printUsage() {
+    String arg = this.hasSubArg ? this.getArgName() : "";
+    System.out.println(this.getName() + " " + arg);
+    System.out.println(this.getDescription() + "\n");
   }
 
   /**
    * Add a value to an Option in a immutable way.
    *
-   * @param option the option to add value.
-   * @param value  the value to add.
+   * @param value the value to add.
    * @return a new Option with updated value.
    */
-  private Option addValue(Option option, String value) {
-    return new Option(option, value);
+  private Option addValue(String value) {
+    return new Option(this, value);
   }
 
   /**
    * Add a value to an Option in a immutable way.
    *
-   * @param option the option to add value.
    * @param values the values to add.
    * @return a new Option with updated value.
    */
-  private Option addValues(Option option, String[] values) {
-    return new Option(option, ArrayHelper.combineAll(option.getValues(), values));
+  private Option addValues(String[] values) {
+    return new Option(this, ArrayHelper.combineAll(this.getValues(), values));
   }
 
   /**
@@ -159,13 +158,6 @@ public class Option {
     return argSplitter;
   }
 
-//  /**
-//   * @return isSubArgRequired.
-//   */
-//  public boolean isSubArgRequired() {
-//    return subArgRequired;
-//  }
-
   /**
    * @return argName
    */
@@ -205,7 +197,6 @@ public class Option {
     private boolean hasSubArg;
     private boolean hasSubArgs;
     private String argSplitter;
-    //    private boolean subArgRequired;
     private String argName;
     private String[] dependencies;
 
@@ -265,15 +256,6 @@ public class Option {
       return this;
     }
 
-//    /**
-//     * @param subArgRequired is sub argument required for the option.
-//     * @return the builder.
-//     */
-//    public Builder addSubArgRequired(boolean subArgRequired) {
-//      this.subArgRequired = subArgRequired;
-//      return this;
-//    }
-
     /**
      * @param argName a name or description for the options's argument.
      * @return the builder.
@@ -315,6 +297,37 @@ public class Option {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Option option = (Option) o;
+    return isRequired() == option.isRequired() &&
+        hasSubArg == option.hasSubArg &&
+        hasSubArgs == option.hasSubArgs &&
+        getName().equals(option.getName()) &&
+        Objects.equals(getDescription(), option.getDescription()) &&
+        Objects.equals(getArgSplitter(), option.getArgSplitter()) &&
+        Objects.equals(getArgName(), option.getArgName()) &&
+        Objects.equals(getValue(), option.getValue()) &&
+        Arrays.equals(getValues(), option.getValues()) &&
+        Arrays.equals(getDependencies(), option.getDependencies());
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects
+        .hash(getName(), getDescription(), isRequired(), hasSubArg, hasSubArgs, getArgSplitter(),
+            getArgName(), getValue());
+    result = 31 * result + Arrays.hashCode(getValues());
+    result = 31 * result + Arrays.hashCode(getDependencies());
+    return result;
+  }
+
+  @Override
   public String toString() {
     return "Option{" +
         "name='" + name + '\'' +
@@ -323,7 +336,6 @@ public class Option {
         ", hasSubArg=" + hasSubArg +
         ", hasSubArgs=" + hasSubArgs +
         ", argSplitter='" + argSplitter + '\'' +
-//        ", subArgRequired=" + subArgRequired +
         ", argName='" + argName + '\'' +
         ", value='" + value + '\'' +
         ", values=" + Arrays.toString(values) +
