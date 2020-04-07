@@ -1,6 +1,5 @@
 package model.comparators;
 
-import java.util.Comparator;
 import model.Todo;
 
 public class DateComparator extends AbstractComparator {

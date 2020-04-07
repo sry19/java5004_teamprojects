@@ -1,11 +1,10 @@
 package view;
 
-import controller.commandlineparser.exceptions.InvalidIdException;
+import exceptions.InvalidIdException;
 import java.text.ParseException;
 import java.util.HashMap;
 import model.comparators.ComparatorFactory;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import model.Todo;
