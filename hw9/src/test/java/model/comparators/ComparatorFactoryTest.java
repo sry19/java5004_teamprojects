@@ -15,8 +15,8 @@ public class ComparatorFactoryTest {
   public void makeComparator() {
     OptionConstants constants =  new OptionConstants();
     ComparatorFactory comparatorFactory = new ComparatorFactory();
-    comparator1 = ComparatorFactory.makeComparator(constants.DUE);
-    comparator2 = ComparatorFactory.makeComparator(constants.PRIORITY);
+    comparator1 = ComparatorFactory.makeComparator("--sort-by-date");
+    comparator2 = ComparatorFactory.makeComparator("--sort-by-priority");
     assertTrue(comparator1 instanceof DateComparator);
     assertTrue(comparator2 instanceof PriorityComparator);
   }

@@ -273,6 +273,11 @@ public class Todo extends Item implements IItem {
   }
 
 
+  public String displayTodo() {
+    return "Todo{id= {" + id + "}, text = {" + text +"}, completed = {" + completed + "}, due = {" +
+        localDateToString(due) + "}, priority = {" + priority + "}, category = {" + category + "}}\n";
+  }
+
 
 
 }
