@@ -265,25 +265,7 @@ public class Todo extends Item implements IItem {
         category + "\"]";
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Todo todo = (Todo) o;
-    return completed == todo.completed &&
-        priority == todo.priority &&
-        id == todo.id &&
-        Objects.equals(text, todo.text) &&
-        Objects.equals(due, todo.due) &&
-        Objects.equals(category, todo.category);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(text, completed, due, priority, category, id);
-  }
+
+
 }
