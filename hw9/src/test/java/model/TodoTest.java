@@ -125,5 +125,6 @@ public class TodoTest {
   @Test
   public void testHashCode() {
     assertTrue(todo1.hashCode() == todo4.hashCode());
+    assertTrue(todo5.hashCode() == todo5.hashCode());
   }
 }

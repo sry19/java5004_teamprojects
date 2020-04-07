@@ -1,6 +1,6 @@
-#Design patterns:
+# Design patterns:
 
-##The "comparators" use "Factory pattern".
+## The "comparators" use "Factory pattern".
 
 Reasoning: 
 * The "sort" method have to use different "comparators" to do different comparision.
