@@ -3,8 +3,7 @@ package model;
 import exceptions.InvalidItemException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -14,7 +13,7 @@ import java.util.Objects;
 public class Todo extends Item implements IItem {
   private String text;
   private boolean completed;
-  private Date due;
+  private LocalDate due;
   private int priority;
   private String category;
   private int id;
@@ -71,24 +70,18 @@ public class Todo extends Item implements IItem {
    * @return a Date object
    * @throws ParseException if cannot parse
    */
-  private static Date generateDue(String due) throws ParseException {
-    if (due == null) {
-      return null;
-    } else {
-      try {
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        format.parse(due);
-        String[] time = due.split("/");
-        int year = Integer.parseInt(time[2]);
-        int month = Integer.parseInt(time[0]);
-        int date = Integer.parseInt(time[1]);
-        Calendar cal = Calendar.getInstance();
-        cal.set(year, month, date, 12, 30, 30);
-        Date newDate = cal.getTime();
-        return newDate;
-      } catch (ParseException e) {
-        throw new ParseException("Date must be in format of MM/dd/yyyy", 1);  //TODO: can we extend parse exception?
-      }
+  private static LocalDate generateDue(String due) throws ParseException {
+    try {
+      SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+      format.parse(due);
+      String[] time = due.split("/");
+      int year = Integer.parseInt(time[2]);
+      int month = Integer.parseInt(time[0]);
+      int date = Integer.parseInt(time[1]);
+      LocalDate newDate = LocalDate.of(year, month, date);
+      return newDate;
+    } catch (ParseException e) {
+      throw new ParseException("Date must be in format of MM/dd/yyyy", 1);  //TODO: can we extend parse exception?
     }
   }
 
@@ -135,7 +128,7 @@ public class Todo extends Item implements IItem {
    * @return a Date object
    * @throws ParseException if due cannot parse
    */
-  public Date checkDue(String due) throws ParseException {
+  public LocalDate checkDue(String due) throws ParseException {
     if (due.equals(NOT_FILLED)) {
       return null;
     } else {
@@ -202,7 +195,7 @@ public class Todo extends Item implements IItem {
    * Get the due date
    * @return the due date
    */
-  public Date getDue() {
+  public LocalDate getDue() {
     return due;
   }
 

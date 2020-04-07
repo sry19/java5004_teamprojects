@@ -10,8 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import model.Todo;
-import model.filter.FilterPlatform;
-import model.filter.FilterSettings;
+//import model.filter.FilterPlatform;
+//import model.filter.FilterSettings;
 import model.reader.CSVReader;
 import model.reader.IReader;
 import java.io.BufferedReader;
@@ -27,7 +27,7 @@ public class TodoList extends ItemList<Todo> {
   int numOftodo;
   static final int COLUMN = 6;
   static final String TRIM_REGEX = "^\"|\"$";
-  static final String SPLIT_REGEX = "\",";
+  static final String SPLIT_REGEX = "\",\"";
   static final String EMPTY = "";
   static final String HEADER = "“id”,”text”,”completed”,”due”,”priority”,”category”";
 
@@ -94,12 +94,16 @@ public class TodoList extends ItemList<Todo> {
       throws IOException, ParseException {
     int newId = this.numOftodo + 1;
     String[] columns = description.split(SPLIT_REGEX);
+//    for (String item: columns) {
+//      System.out.println(item);
+//    }
     if (columns.length != TodoList.COLUMN - 1) {
       throw new InvalidCSVFileException();
     }
     Todo newItem = new Todo(newId,trimQuotes(columns[0]),trimQuotes(columns[1]),trimQuotes(columns[2]),
         trimQuotes(columns[3]),trimQuotes(columns[4]));
     this.appendItem(newItem);
+    this.numOftodo++;
   }
 
   /**
@@ -111,7 +115,6 @@ public class TodoList extends ItemList<Todo> {
   private static String trimQuotes(String s) {
     return s.replaceAll(TRIM_REGEX, EMPTY);
   }
-
 
   /**
    * set the completion status of a to-do
@@ -130,17 +133,26 @@ public class TodoList extends ItemList<Todo> {
 
   /**
    * Update the CSV
-   * @param filepath the file path
    */
-  public void updateCSV(String filepath) {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
+  public void updateCSV() {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filepath))) {
       writer.write(HEADER);
+      writer.write("\n");
       for (Todo todo : super.itemArrayList) {
         writer.write(todo.toString());
+        writer.write("\n");
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * @param commandLine
+   */
+  @Override
+  public void filter(ICommandLine commandLine) {
+
   }
 
   /**
@@ -176,21 +188,21 @@ public class TodoList extends ItemList<Todo> {
    * filter for the sort type
    * @param commandLine command line argument
    */
-  @Override
-  public void filter(ICommandLine commandLine) {
-    if (commandLine.hasOption("--show-incomplete") && commandLine.hasOption("--show-category")) {
-      FilterSettings both = new FilterSettings.Builder().incompleteTodo().selectCategory(commandLine.getOptionValues("--show-category")).build();
-      FilterPlatform platform1 = new FilterPlatform(both);
-      platform1.filter(this.itemArrayList);
-    } else if (commandLine.hasOption("--show-incomplete")) {
-      FilterSettings onlyOne = new FilterSettings.Builder().incompleteTodo().build();
-      FilterPlatform platform1 = new FilterPlatform(onlyOne);
-      platform1.filter(this.itemArrayList);
-    } else {
-      FilterSettings only12 = new FilterSettings.Builder().selectCategory(commandLine.getOptionValues("--show-category")).build();
-      FilterPlatform platform3 = new FilterPlatform(only12);
-      platform3.filter(this.itemArrayList);
-    }
-  }
+//  @Override
+//  public void filter(ICommandLine commandLine) {
+//    if (commandLine.hasOption("--show-incomplete") && commandLine.hasOption("--show-category")) {
+//      FilterSettings both = new FilterSettings.Builder().incompleteTodo().selectCategory(commandLine.getOptionValues("--show-category")).build();
+//      FilterPlatform platform1 = new FilterPlatform(both);
+//      platform1.filter(this.itemArrayList);
+//    } else if (commandLine.hasOption("--show-incomplete")) {
+//      FilterSettings onlyOne = new FilterSettings.Builder().incompleteTodo().build();
+//      FilterPlatform platform1 = new FilterPlatform(onlyOne);
+//      platform1.filter(this.itemArrayList);
+//    } else {
+//      FilterSettings only12 = new FilterSettings.Builder().selectCategory(commandLine.getOptionValues("--show-category")).build();
+//      FilterPlatform platform3 = new FilterPlatform(only12);
+//      platform3.filter(this.itemArrayList);
+//    }
+//  }
 
 }
