@@ -3,6 +3,7 @@ package controller;
 import controller.commandlineparser.Executable;
 import controller.commandlineparser.ICommandLine;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import view.TodoList;
 
@@ -29,7 +30,7 @@ public class TaskManagerExe implements Executable {
    *
    * @param iCommandLine the provided ICommandLine.
    */
-  private void addTodo(ICommandLine iCommandLine) throws IOException {
+  private void addTodo(ICommandLine iCommandLine) throws IOException, ParseException {
     if (iCommandLine.hasOption(OptionConstants.ADD_TODO)) {
       String csv_file = iCommandLine.getOptionValue(OptionConstants.CSV_FILE);
       String todoText = iCommandLine.getOptionValue(OptionConstants.TODO_TEXT);
@@ -42,7 +43,7 @@ public class TaskManagerExe implements Executable {
           .getOptionValue(OptionConstants.CATEGORY) : OptionConstants.DEFAULT_VAL;
 
       TodoList todoList = new TodoList(csv_file);
-      todoList.add(todoText, completed, dueDate, priority, category);
+      todoList.addTodo(todoText, completed, dueDate, priority, category);
       todoList.updateCSV();
     }
   }
