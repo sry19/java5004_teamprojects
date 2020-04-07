@@ -11,6 +11,7 @@ import java.util.Objects;
  * The concrete to-do class
  */
 public class Todo extends Item implements IItem {
+
   private String text;
   private boolean completed;
   private LocalDate due;
@@ -21,14 +22,15 @@ public class Todo extends Item implements IItem {
 
   /**
    * To-do constructor
-   * @param id to-do id
-   * @param text to-do text
+   *
+   * @param id        to-do id
+   * @param text      to-do text
    * @param completed if to-do is completed
-   * @param due due date
-   * @param priority priority of to-do
-   * @param category category of to-do
+   * @param due       due date
+   * @param priority  priority of to-do
+   * @param category  category of to-do
    * @throws InvalidItemException if item is not valid
-   * @throws ParseException if cannot parse
+   * @throws ParseException       if cannot parse
    */
   public Todo(int id, String text, String completed, String due, String priority, String category)
       throws InvalidItemException, ParseException {
@@ -42,12 +44,13 @@ public class Todo extends Item implements IItem {
 
   /**
    * to-do constructor
+   *
    * @param todo a to-do hash map
    * @throws InvalidItemException when item is not valid
-   * @throws ParseException if file cannot parse
+   * @throws ParseException       if file cannot parse
    */
-  public Todo(HashMap<String,String> todo) throws InvalidItemException, ParseException {
-    for (String field: todo.keySet()) {
+  public Todo(HashMap<String, String> todo) throws InvalidItemException, ParseException {
+    for (String field : todo.keySet()) {
       if (field.equals("id")) {
         this.id = this.checkID(todo.get(field));
       } else if (field.equals("text")) {
@@ -66,6 +69,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Generate a due date
+   *
    * @param due due date passed in from the command line
    * @return a Date object
    * @throws ParseException if cannot parse
@@ -81,7 +85,8 @@ public class Todo extends Item implements IItem {
       LocalDate newDate = LocalDate.of(year, month, date);
       return newDate;
     } catch (ParseException e) {
-      throw new ParseException("Date must be in format of MM/dd/yyyy", 1);  //TODO: can we extend parse exception?
+      throw new ParseException("Date must be in format of MM/dd/yyyy",
+          1);  //TODO: can we extend parse exception?
     }
   }
 
@@ -97,6 +102,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Set to-do as complete
+   *
    * @param completed if to-do is completed
    */
   public void setCompleted(boolean completed) {
@@ -105,12 +111,14 @@ public class Todo extends Item implements IItem {
 
   /**
    * Check if to-do text is valid
+   *
    * @param text to-do text
    * @return the text
    */
   public String checkText(String text) {
     if (text.equals(NOT_FILLED)) {
-      throw new InvalidItemException("text field is required");  // if there is an invalid to-do, ignore that line and continue to create others
+      throw new InvalidItemException(
+          "text field is required");  // if there is an invalid to-do, ignore that line and continue to create others
     } else {
       return text;
     }
@@ -118,6 +126,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Check and return the priority
+   *
    * @param priority the priority of to-do
    * @return an int of priority
    */
@@ -134,6 +143,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Check if due date is valid
+   *
    * @param due the due date
    * @return a Date object
    * @throws ParseException if due cannot parse
@@ -148,6 +158,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Check if the id is valid
+   *
    * @param id the string passed in
    * @return an int
    */
@@ -157,6 +168,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Check if completion is valid
+   *
    * @param completed the completion status
    * @return a boolean on the completion status
    */
@@ -166,6 +178,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Check and return the category
+   *
    * @param category the to-do category
    * @return the category
    */
@@ -179,6 +192,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Get the ID
+   *
    * @return the ID
    */
   public int getId() {
@@ -187,6 +201,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Get the text
+   *
    * @return the text
    */
   public String getText() {
@@ -195,6 +210,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Get completion status
+   *
    * @return the completion status
    */
   public boolean isCompleted() {
@@ -203,6 +219,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Get the due date
+   *
    * @return the due date
    */
   public LocalDate getDue() {
@@ -211,6 +228,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Get the priority
+   *
    * @return the priority
    */
   public int getPriority() {
@@ -219,6 +237,7 @@ public class Todo extends Item implements IItem {
 
   /**
    * Get the category
+   *
    * @return the category
    */
   public String getCategory() {
@@ -267,20 +286,23 @@ public class Todo extends Item implements IItem {
 
   @Override
   public String toString() {
+    String dueStr = due == null ? "?" : localDateToString(due);
+    String categoryStr = category == null ? "?" : category;
     return "\"" + id + "\",\"" +
         text + "\",\"" +
         completed + "\",\"" +
-        localDateToString(due) + "\",\"" +
+        dueStr + "\",\"" +
         priority + "\",\"" +
-        category + "\"";
+        categoryStr + "\"";
   }
 
 
   public String displayTodo() {
-    return "Todo{id= {" + id + "}, text = {" + text +"}, completed = {" + completed + "}, due = {" +
-        localDateToString(due) + "}, priority = {" + priority + "}, category = {" + category + "}}\n";
+    return "Todo{id= {" + id + "}, text = {" + text + "}, completed = {" + completed + "}, due = {"
+        +
+        localDateToString(due) + "}, priority = {" + priority + "}, category = {" + category
+        + "}}\n";
   }
-
 
 
 }

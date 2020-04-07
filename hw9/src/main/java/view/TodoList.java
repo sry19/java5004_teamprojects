@@ -92,7 +92,6 @@ public class TodoList extends ItemList<Todo> {
   public void addTodo(String text, String completed, String due, String priority, String category)
       throws ParseException {
     int newId = this.numOftodo + 1;
-    System.out.println(this.numOftodo);
     Todo newItem = new Todo(newId, text, completed, due, priority, category);
     this.appendItem(newItem);
     this.numOftodo++;

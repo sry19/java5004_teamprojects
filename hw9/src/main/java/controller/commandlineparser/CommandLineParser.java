@@ -91,8 +91,8 @@ public class CommandLineParser implements ICommandLineParser {
    */
   private boolean checkOptionArgs() {
     for (Option option : this.options) {
-      if ((option.hasSubArg() && option.getValue() == null) || (option.hasSubArgs()
-          && option.getValues() == null)) {
+      if ((option.hasSubArgs() && option.getValues() == null) || (option.hasSubArg()
+          && option.getValue() == null)) {
         System.out.println(option.getName() + " needs sub argument(s)");
         return false;
       }
