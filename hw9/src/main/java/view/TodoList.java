@@ -22,7 +22,7 @@ public class TodoList extends ItemList<Todo> {
   static final String TRIM_REGEX = "^\"|\"$";
   static final String SPLIT_REGEX = "\",\"";
   static final String EMPTY = "";
-  static final String HEADER = "“id”,”text”,”completed”,”due”,”priority”,”category”";
+  static final String HEADER = "\"id\",\"text\",\"completed\",\"due\",\"priority\",\"category\"";
 
   /**
    * To-do list constructor
