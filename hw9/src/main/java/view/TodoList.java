@@ -3,6 +3,7 @@ package view;
 import controller.commandlineparser.ICommandLine;
 import exceptions.InvalidCSVFileException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import model.comparators.ComparatorFactory;
 import java.io.BufferedWriter;
@@ -10,8 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import model.Todo;
-import model.filter.FilterPlatform;
-import model.filter.FilterSettings;
+import model.filter1.Filter;
+import model.filter1.FilterStash;
+import model.filter1.TodoFilterStash;
 import model.reader.CSVReader;
 import model.reader.IReader;
 import java.io.BufferedReader;
@@ -129,19 +131,41 @@ public class TodoList extends ItemList<Todo> {
 
   @Override
   public void filter(ICommandLine commandLine) {
-    if (commandLine.hasOption("--show-incomplete") && commandLine.hasOption("--show-category")) {
-      FilterSettings both = new FilterSettings.Builder().incompleteTodo().selectCategory(commandLine.getOptionValues("--show-category")).build();
-      FilterPlatform platform1 = new FilterPlatform(both);
-      platform1.filter(this.itemArrayList);
-    } else if (commandLine.hasOption("--show-incomplete")) {
-      FilterSettings onlyOne = new FilterSettings.Builder().incompleteTodo().build();
-      FilterPlatform platform1 = new FilterPlatform(onlyOne);
-      platform1.filter(this.itemArrayList);
-    } else {
-      FilterSettings only12 = new FilterSettings.Builder().selectCategory(commandLine.getOptionValues("--show-category")).build();
-      FilterPlatform platform3 = new FilterPlatform(only12);
-      platform3.filter(this.itemArrayList);
-    }
+    TodoFilterStash filterStash = new TodoFilterStash(commandLine);
+    filterStash.produceFilters();
+    this.itemArrayList = filterStash.filter(this.itemArrayList);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    TodoList todoList = (TodoList) o;
+
+    if (numOftodo != todoList.numOftodo) {
+      return false;
+    }
+    return filepath.equals(todoList.filepath);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = filepath.hashCode();
+    result = 31 * result + numOftodo;
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "TodoList{" +
+        "filepath='" + filepath + '\'' +
+        ", numOftodo=" + numOftodo +
+        ", itemArrayList=" + itemArrayList +
+        '}';
+  }
 }
