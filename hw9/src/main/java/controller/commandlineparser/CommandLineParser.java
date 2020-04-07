@@ -38,7 +38,7 @@ public class CommandLineParser implements ICommandLineParser {
    */
   private Options createFromArgs(Options options, String[] args) throws InvalidOptionException {
     Options newOptions = new Options();
-    for (int i = 1; i < args.length; i++) {
+    for (int i = 0; i < args.length; i++) {
       // i start from 1 because the first argument is the program's name.
       if (!newOptions.hasOption(args[i])) {
         if (!options.hasOption(args[i])) {

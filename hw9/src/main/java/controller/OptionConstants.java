@@ -8,7 +8,7 @@ import javax.swing.Spring;
 public class OptionConstants {
 
   public static final String CSV_FILE = "--csv-file";
-  public static final String ADD_TODO = "--add-todo ";
+  public static final String ADD_TODO = "--add-todo";
   public static final String TODO_TEXT = "--todo-text";
   public static final String COMPLETED = "--completed";
   public static final String DUE = "--due";
