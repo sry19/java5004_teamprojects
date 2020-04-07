@@ -1,7 +1,7 @@
-package model.filter1;
+package model.filter;
 
-import controller.commandlineparser.ICommandLine;
 import java.util.ArrayList;
+import java.util.HashMap;
 import model.Todo;
 
 /**
@@ -12,10 +12,10 @@ public class TodoFilterStash extends FilterStash<Todo> {
   /**
    * Instantiates a new todos' filter stash.
    *
-   * @param commandLine the command line
+   * @param values the option's values
    */
-  public TodoFilterStash(ICommandLine commandLine) {
-    super(commandLine);
+  public TodoFilterStash(HashMap<String,String[]> values) {
+    super(values);
   }
 
   /**
@@ -39,9 +39,7 @@ public class TodoFilterStash extends FilterStash<Todo> {
    */
   @Override
   public String toString() {
-    return "TodoFilterStash{" +
-        "container=" + container +
-        ", filters=" + filters +
+    return "TodoFilterStash{" + super.toString() +
         '}';
   }
 }

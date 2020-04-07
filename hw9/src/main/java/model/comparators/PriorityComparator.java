@@ -16,7 +16,7 @@ public class PriorityComparator extends AbstractComparator {
     if (o1.getPriority() == o2.getPriority()) {
       return Integer.compare(o1.getId(), o2.getId());  //ID should be unique
     } else {
-      return Integer.compare(o1.getPriority(), o2.getPriority());
+      return -Integer.compare(o1.getPriority(), o2.getPriority());
     }
   }
 }
