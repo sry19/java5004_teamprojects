@@ -31,28 +31,36 @@ public class TodoListTest {
     int old = list1.numOftodo;
     list1.addTodo("Finish hw9", "false","03/22/2020", "1","school");
     assertTrue(list1.numOftodo == old + 1);
-    list1.updateCSV();
   }
 
   @Test
   public void completed() throws IOException {
       list1 = new TodoList("src/main/resources/todolist.csv");
       list1.completed(1);
-//    System.out.println(list1.itemArrayList.get(0).toString());
-//    assertTrue(list1.itemArrayList.get(0).isCompleted());
+      assertTrue(list1.itemArrayList.get(0).isCompleted());
   }
 
   @Test
   public void updateCSV() throws IOException, ParseException {
-//    list1.addTodo("Finish hw9", "false","03/22/2020", "1","school");
-//    list1.updateCSV();
+    list1 = new TodoList("src/main/resources/todolist2.csv");
+    list1.addTodo("Finish hw9", "false","03/22/2020", "1","school");
+    list1.updateCSV();
   }
 
   @Test
-  public void sort() {
-//    list1.sort("date");
+  public void sortByDate() throws IOException {
+//    list1 = new TodoList("src/main/resources/sortfile.csv");
+//    list1.sort("--sort-by-date");
 //    list1.updateCSV();
 //    list1.display();
+  }
+
+  @Test
+  public void sortByPriority() throws IOException {
+    list1 = new TodoList("src/main/resources/sortfile.csv");
+    list1.sort("--sort-by-priority");
+    list1.updateCSV();
+    list1.display();
   }
 
   @Test
@@ -62,6 +70,7 @@ public class TodoListTest {
   }
 
   @Test
-  public void filter() {
+  public void filter() throws IOException {
+    list1 = new TodoList("src/main/resources/todolist.csv");
   }
 }
