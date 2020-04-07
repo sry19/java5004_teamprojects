@@ -1,4 +1,4 @@
-package model.filter1;
+package model.filter;
 
 /**
  * The type Filter factory.
@@ -9,11 +9,10 @@ public class FilterFactory {
    * Make filter according to option fields.
    *
    * @param name   the name
-   * @param value  the value
    * @param values the values
    * @return the filter
    */
-  public static Filter makeFilter(String name, String value, String[] values) {
+  public static Filter makeFilter(String name, String[] values) {
     switch (name) {
       case Constants.CATEGORY_FILTER:
         return new CategoryFilter(values);

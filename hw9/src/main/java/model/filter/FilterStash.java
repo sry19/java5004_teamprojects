@@ -1,9 +1,7 @@
-package model.filter1;
+package model.filter;
 
-import controller.commandlineparser.ICommandLine;
 import java.util.ArrayList;
 import java.util.HashMap;
-import model.Todo;
 
 /**
  * The type Filter stash.
@@ -12,10 +10,7 @@ import model.Todo;
  */
 public abstract class FilterStash<T> {
 
-  /**
-   * The Command line.
-   */
-  ICommandLine commandLine;
+  HashMap<String,String[]> values;
   /**
    * The Container: a HashMap.
    */
@@ -28,10 +23,10 @@ public abstract class FilterStash<T> {
   /**
    * Instantiates a new Filter stash.
    *
-   * @param commandLine the command line
+   * @param values a HashMap whose key is the option name and value is the option values
    */
-  public FilterStash(ICommandLine commandLine) {
-    this.commandLine = commandLine;
+  public FilterStash(HashMap<String,String[]> values) {
+    this.values = values;
     FilterSettings filterSettings = new FilterSettings();
     this.container = filterSettings.container;
     this.filters = new ArrayList<>();
@@ -42,10 +37,9 @@ public abstract class FilterStash<T> {
    */
   public void produceFilters() {
     for (String optionName : this.container.keySet()) {
-      if (this.commandLine.hasOption(optionName)) {
+      if (this.values.containsKey(optionName)) {
         Filter filter = FilterFactory
-            .makeFilter(optionName, this.commandLine.getOptionValue(optionName),
-                this.commandLine.getOptionValues(optionName));
+            .makeFilter(optionName, this.values.get(optionName));
         this.filters.add(filter);
       }
     }

@@ -1,6 +1,5 @@
 package view;
 
-import controller.commandlineparser.ICommandLine;
 import exceptions.InvalidCSVFileException;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -10,8 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import model.Todo;
-//import model.filter.FilterPlatform;
-//import model.filter.FilterSettings;
+import model.filter.TodoFilterStash;
 import model.reader.CSVReader;
 import model.reader.IReader;
 import java.io.BufferedReader;
@@ -19,9 +17,6 @@ import java.io.FileReader;
 import java.util.Collections;
 import model.comparators.AbstractComparator;
 
-/**
- * The concrete to-do list class
- */
 public class TodoList extends ItemList<Todo> {
   String filepath;
   int numOftodo;
@@ -80,8 +75,8 @@ public class TodoList extends ItemList<Todo> {
     Todo newItem = new Todo(Integer.parseInt(id),text,completed,due,priority,category);
     super.appendItem(newItem);
   }
-  
-  //TODO:.
+
+ //TODO:.
   //can i use builder pattern?
 
   /**
@@ -90,18 +85,15 @@ public class TodoList extends ItemList<Todo> {
    * @throws IOException when file cannot open
    * @throws ParseException when cannot parse
    */
-  public void addTodo(String description)
+  public void addTodo(String text, String completed, String due, String priority, String category)
       throws IOException, ParseException {
     int newId = this.numOftodo + 1;
     String[] columns = description.split(SPLIT_REGEX);
-//    for (String item: columns) {
-//      System.out.println(item);
-//    }
     if (columns.length != TodoList.COLUMN - 1) {
       throw new InvalidCSVFileException();
     }
-    Todo newItem = new Todo(newId,trimQuotes(columns[0]),trimQuotes(columns[1]),trimQuotes(columns[2]),
-        trimQuotes(columns[3]),trimQuotes(columns[4]));
+    Todo newItem = new Todo(newId,text,completed,due,
+        priority,category);
     this.appendItem(newItem);
     this.numOftodo++;
   }
@@ -131,7 +123,7 @@ public class TodoList extends ItemList<Todo> {
     }
   }
 
-  /**
+   /**
    * Update the CSV
    */
   public void updateCSV() {
@@ -188,21 +180,43 @@ public class TodoList extends ItemList<Todo> {
    * filter for the sort type
    * @param commandLine command line argument
    */
-//  @Override
-//  public void filter(ICommandLine commandLine) {
-//    if (commandLine.hasOption("--show-incomplete") && commandLine.hasOption("--show-category")) {
-//      FilterSettings both = new FilterSettings.Builder().incompleteTodo().selectCategory(commandLine.getOptionValues("--show-category")).build();
-//      FilterPlatform platform1 = new FilterPlatform(both);
-//      platform1.filter(this.itemArrayList);
-//    } else if (commandLine.hasOption("--show-incomplete")) {
-//      FilterSettings onlyOne = new FilterSettings.Builder().incompleteTodo().build();
-//      FilterPlatform platform1 = new FilterPlatform(onlyOne);
-//      platform1.filter(this.itemArrayList);
-//    } else {
-//      FilterSettings only12 = new FilterSettings.Builder().selectCategory(commandLine.getOptionValues("--show-category")).build();
-//      FilterPlatform platform3 = new FilterPlatform(only12);
-//      platform3.filter(this.itemArrayList);
-//    }
-//  }
+  @Override
+  public void filter(HashMap<String,String[]> values) {
+    TodoFilterStash filterStash = new TodoFilterStash(values);
+    filterStash.produceFilters();
+    this.itemArrayList = filterStash.filter(this.itemArrayList);
+  }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    TodoList todoList = (TodoList) o;
+
+    if (numOftodo != todoList.numOftodo) {
+      return false;
+    }
+    return filepath.equals(todoList.filepath);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = filepath.hashCode();
+    result = 31 * result + numOftodo;
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "TodoList{" +
+        "filepath='" + filepath + '\'' +
+        ", numOftodo=" + numOftodo +
+        ", itemArrayList=" + itemArrayList +
+        '}';
+  }
 }

@@ -1,5 +1,6 @@
 package view;
 import controller.commandlineparser.ICommandLine;
+import java.util.HashMap;
 import model.IItem;
 
 /**
@@ -14,11 +15,8 @@ public interface IItemList<T> {
    */
   void appendItem(T item);
 
-  /**
-   *
-   * @param commandLine
-   */
-  void filter(ICommandLine commandLine);
+
+  void filter(HashMap<String,String[]> values);
 
   /**
    * Sort the items by type
