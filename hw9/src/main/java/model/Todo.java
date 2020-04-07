@@ -86,6 +86,9 @@ public class Todo extends Item implements IItem {
   }
 
   public String localDateToString(LocalDate localDate) {
+    if (localDate == null) {
+      return null;
+    }
     String oldString = localDate.toString();
     String[] time = oldString.split("-");
     String newString = time[1] + "/" + time[2] + "/" + time[0];
