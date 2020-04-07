@@ -1,5 +1,6 @@
 package model;
 
+import controller.OptionConstants;
 import exceptions.InvalidItemException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -286,8 +287,8 @@ public class Todo extends Item implements IItem {
 
   @Override
   public String toString() {
-    String dueStr = due == null ? "?" : localDateToString(due);
-    String categoryStr = category == null ? "?" : category;
+    String dueStr = due == null ? OptionConstants.DEFAULT_VAL : localDateToString(due);
+    String categoryStr = category == null ? OptionConstants.DEFAULT_VAL : category;
     return "\"" + id + "\",\"" +
         text + "\",\"" +
         completed + "\",\"" +

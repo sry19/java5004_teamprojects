@@ -22,9 +22,6 @@ public class ArrayHelper {
     String[] newArray = new String[array1.length + array2.length];
     System.arraycopy(array1, 0, newArray, 0, array1.length);
     System.arraycopy(array2, 0, newArray, array1.length, array2.length);
-    for (String s : newArray) {
-      System.out.println(s);
-    }
     return newArray;
   }
 }
