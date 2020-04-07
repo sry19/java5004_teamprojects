@@ -4,6 +4,7 @@ import controller.commandlineparser.Executable;
 import controller.commandlineparser.ICommandLine;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.HashMap;
 import view.TodoList;
 
@@ -44,6 +45,10 @@ public class TaskManagerExe implements Executable {
 
       TodoList todoList = new TodoList(csv_file);
       todoList.addTodo(todoText, completed, dueDate, priority, category);
+      System.out.println("Adding the following entry: ");
+      System.out.println(
+          "text: " + todoText + "  completed: " + completed + "  due: " + dueDate + "  priority: "
+              + priority + "  category: " + category);
       todoList.updateCSV();
     }
   }
@@ -58,9 +63,11 @@ public class TaskManagerExe implements Executable {
     if (iCommandLine.hasOption(OptionConstants.COMPLETE_TODO)) {
       String csv_file = iCommandLine.getOptionValue(OptionConstants.CSV_FILE);
       TodoList todoList = new TodoList(csv_file);
-      for (String id : iCommandLine.getOptionValues(OptionConstants.COMPLETE_TODO)) {
+      String[] todoID = iCommandLine.getOptionValues(OptionConstants.COMPLETE_TODO);
+      for (String id : todoID) {
         todoList.completed(Integer.parseInt(id));
       }
+      System.out.println("Completing the following To-dos: " + Arrays.toString(todoID));
       todoList.updateCSV();
     }
   }
