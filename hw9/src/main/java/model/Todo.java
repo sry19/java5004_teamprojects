@@ -85,6 +85,13 @@ public class Todo extends Item implements IItem {
     }
   }
 
+  public String localDateToString(LocalDate localDate) {
+    String oldString = localDate.toString();
+    String[] time = oldString.split("-");
+    String newString = time[1] + "/" + time[2] + "/" + time[0];
+    return newString;
+  }
+
   /**
    * Set to-do as complete
    * @param completed if to-do is completed
@@ -257,12 +264,12 @@ public class Todo extends Item implements IItem {
 
   @Override
   public String toString() {
-    return "[\"" + id + "\",\"" +
+    return "\"" + id + "\",\"" +
         text + "\",\"" +
         completed + "\",\"" +
-        due + "\",\"" +
+        localDateToString(due) + "\",\"" +
         priority + "\",\"" +
-        category + "\"]";
+        category + "\"";
   }
 
 

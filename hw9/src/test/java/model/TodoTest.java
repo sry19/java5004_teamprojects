@@ -96,7 +96,7 @@ public class TodoTest {
 
   @Test
   public void testToString() {
-    String expected = "\"1\",\"Finish hw9\",\"false\",\"2020-03-22\",\"1\",\"school\"";
+    String expected = "\"1\",\"Finish hw9\",\"false\",\"03/22/2020\",\"1\",\"school\"";
     assertEquals(expected, todo1.toString());
   }
 
