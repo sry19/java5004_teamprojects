@@ -2,6 +2,9 @@ package model.writer;
 
 import java.io.IOException;
 
+/**
+ * The interface Writer.
+ */
 public interface IWriter {
 
   /**

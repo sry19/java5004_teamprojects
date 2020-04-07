@@ -3,6 +3,9 @@ package model.filter;
 import java.util.ArrayList;
 import model.Todo;
 
+/**
+ * The type Incomplete filter.
+ */
 public class IncompleteFilter extends Filter {
 
   /**

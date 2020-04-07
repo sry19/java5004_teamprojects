@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public abstract class FilterStash<T> {
 
-  HashMap<String,String[]> values;
+  HashMap<String, String[]> values;
   /**
    * The Container: a HashMap.
    */
@@ -25,7 +25,7 @@ public abstract class FilterStash<T> {
    *
    * @param values a HashMap whose key is the option name and value is the option values
    */
-  public FilterStash(HashMap<String,String[]> values) {
+  public FilterStash(HashMap<String, String[]> values) {
     this.values = values;
     FilterSettings filterSettings = new FilterSettings();
     this.container = filterSettings.container;

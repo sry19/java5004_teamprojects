@@ -19,7 +19,7 @@ public class CategoryFilter extends Filter {
   /**
    * Instantiates a new Category filter.
    *
-   * @param categories the categories
+   * @param categories the categories used to filter
    */
   public CategoryFilter(String[] categories) {
     this.categories = categories;

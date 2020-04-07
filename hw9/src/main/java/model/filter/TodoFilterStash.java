@@ -14,7 +14,7 @@ public class TodoFilterStash extends FilterStash<Todo> {
    *
    * @param values the option's values
    */
-  public TodoFilterStash(HashMap<String,String[]> values) {
+  public TodoFilterStash(HashMap<String, String[]> values) {
     super(values);
   }
 

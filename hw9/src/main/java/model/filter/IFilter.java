@@ -3,6 +3,9 @@ package model.filter;
 import java.util.ArrayList;
 import model.Todo;
 
+/**
+ * The interface Filter.
+ */
 public interface IFilter {
 
   /**

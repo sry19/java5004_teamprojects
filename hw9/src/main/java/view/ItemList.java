@@ -25,18 +25,12 @@ public abstract class ItemList<T> implements IItemList<T> {
     itemArrayList.add(item);
   }
 
-  //shouldn't we delete this part?
-//  /**
-//   * Display all the elements in item list
-//   */
-//  @Override
-//  public void display() {
-//    if (this.itemArrayList.isEmpty()) {
-//      System.out.println("There is no matched result.");
-//    }
-//    this.itemArrayList.toString();
-//  }
-
+  /**
+   * equals
+   *
+   * @param o object
+   * @return if they are equal, return true. Otherwise, return false
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -51,11 +45,21 @@ public abstract class ItemList<T> implements IItemList<T> {
     return itemArrayList.equals(itemList.itemArrayList);
   }
 
+  /**
+   * computes hashcode
+   *
+   * @return hashcode
+   */
   @Override
   public int hashCode() {
     return itemArrayList.hashCode();
   }
 
+  /**
+   * return to string
+   *
+   * @return string
+   */
   @Override
   public String toString() {
     return "ItemList{" +

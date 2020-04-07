@@ -163,6 +163,12 @@ public class TodoList extends ItemList<Todo> {
     this.itemArrayList = filterStash.filter(this.itemArrayList);
   }
 
+  /**
+   * equals
+   *
+   * @param o object
+   * @return if they are equal, return true. Otherwise, return false
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -180,6 +186,11 @@ public class TodoList extends ItemList<Todo> {
     return filepath.equals(todoList.filepath);
   }
 
+  /**
+   * computes hashcode
+   *
+   * @return hashcode
+   */
   @Override
   public int hashCode() {
     int result = filepath.hashCode();
@@ -187,6 +198,11 @@ public class TodoList extends ItemList<Todo> {
     return result;
   }
 
+  /**
+   * return to string
+   *
+   * @return string
+   */
   @Override
   public String toString() {
     return "TodoList{" +

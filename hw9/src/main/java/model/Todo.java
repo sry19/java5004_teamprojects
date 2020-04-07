@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * The concrete to-do class
@@ -46,7 +45,7 @@ public class Todo extends Item implements IItem {
   /**
    * to-do constructor
    *
-   * @param todo a to-do hash map
+   * @param todo a HashMap of one line of csv file
    * @throws InvalidItemException when item is not valid
    * @throws ParseException       if file cannot parse
    */
@@ -87,10 +86,16 @@ public class Todo extends Item implements IItem {
       return newDate;
     } catch (ParseException e) {
       throw new ParseException("Date must be in format of MM/dd/yyyy",
-          1);  //TODO: can we extend parse exception?
+          1);
     }
   }
 
+  /**
+   * Local date to string string.
+   *
+   * @param localDate the local date
+   * @return the string
+   */
   public String localDateToString(LocalDate localDate) {
     if (localDate == null) {
       return null;
@@ -132,7 +137,7 @@ public class Todo extends Item implements IItem {
    * @return an int of priority
    */
   public int checkPriority(String priority) {
-    if (priority.equals(NOT_FILLED)) {
+    if (priority.equals(NOT_FILLED) || priority == null) {
       return 3;
     }
     int p = Integer.parseInt(priority);
@@ -245,6 +250,12 @@ public class Todo extends Item implements IItem {
     return category;
   }
 
+  /**
+   * equals
+   *
+   * @param o object
+   * @return if they are equal, return true. Otherwise, return false
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -274,6 +285,11 @@ public class Todo extends Item implements IItem {
     return category.equals(todo.category);
   }
 
+  /**
+   * computes hashcode
+   *
+   * @return hashcode
+   */
   @Override
   public int hashCode() {
     int result = text.hashCode();
@@ -285,6 +301,11 @@ public class Todo extends Item implements IItem {
     return result;
   }
 
+  /**
+   * return to string
+   *
+   * @return string
+   */
   @Override
   public String toString() {
     String dueStr = due == null ? OptionConstants.DEFAULT_VAL : localDateToString(due);
@@ -298,6 +319,11 @@ public class Todo extends Item implements IItem {
   }
 
 
+  /**
+   * Display todos
+   *
+   * @return the string
+   */
   public String displayTodo() {
     return "Todo{id= {" + id + "}, text = {" + text + "}, completed = {" + completed + "}, due = {"
         +

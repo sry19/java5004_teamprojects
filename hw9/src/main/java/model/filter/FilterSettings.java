@@ -1,5 +1,6 @@
 package model.filter;
 
+import controller.OptionConstants;
 import java.util.HashMap;
 
 /**
@@ -17,8 +18,8 @@ public class FilterSettings {
    */
   public FilterSettings() {
     this.container = new HashMap<>();
-    this.container.put("--show-category", "--show-category");
-    this.container.put("--show-incomplete", "--show-incomplete");
+    this.container.put(OptionConstants.SHOW_CATEGORY, OptionConstants.SHOW_CATEGORY);
+    this.container.put(OptionConstants.SHOW_INCOMPLETE, OptionConstants.SHOW_INCOMPLETE);
   }
 
   /**

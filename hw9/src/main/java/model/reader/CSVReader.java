@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Objects;
 import exceptions.InvalidCSVFileException;
 
+/**
+ * The type Csv reader.
+ */
 public class CSVReader implements IReader {
 
   private BufferedReader data;
@@ -102,13 +105,17 @@ public class CSVReader implements IReader {
   }
 
   /**
-   * @return fields.
+   * Get fields string [ ].
+   *
+   * @return fields. string [ ]
    */
   public String[] getFields() {
     return fields;
   }
 
   /**
+   * Gets field num.
+   *
    * @return number of fields.
    */
   public int getFieldNum() {

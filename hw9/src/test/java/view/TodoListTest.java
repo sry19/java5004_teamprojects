@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
 import model.Todo;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,6 +72,10 @@ public class TodoListTest {
 
   @Test
   public void filter() throws IOException {
-    list1 = new TodoList("src/main/resources/todolist.csv");
+    list1 = new TodoList("src/main/resources/sortfile.csv");
+    HashMap<String,String[]> hashMap = new HashMap<>();
+    hashMap.put("--show-category",new String[]{"work"});
+    hashMap.put("--show-incomplete",null);
+    list1.filter(hashMap);
   }
 }
