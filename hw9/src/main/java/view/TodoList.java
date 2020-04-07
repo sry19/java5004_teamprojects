@@ -76,22 +76,19 @@ public class TodoList extends ItemList<Todo> {
     super.appendItem(newItem);
   }
 
- //TODO:.
-  //can i use builder pattern?
-
   /**
-   * Add to-to
-   * @param description to-do description
-   * @throws IOException when file cannot open
-   * @throws ParseException when cannot parse
+   * constructs a new to-do
+   *
+   * @param text a string
+   * @param completed a string
+   * @param due a string
+   * @param priority a string
+   * @param category a string
+   * @throws ParseException
    */
   public void addTodo(String text, String completed, String due, String priority, String category)
-      throws IOException, ParseException {
+      throws ParseException {
     int newId = this.numOftodo + 1;
-    String[] columns = description.split(SPLIT_REGEX);
-    if (columns.length != TodoList.COLUMN - 1) {
-      throw new InvalidCSVFileException();
-    }
     Todo newItem = new Todo(newId,text,completed,due,
         priority,category);
     this.appendItem(newItem);
@@ -137,14 +134,6 @@ public class TodoList extends ItemList<Todo> {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * @param commandLine
-   */
-  @Override
-  public void filter(ICommandLine commandLine) {
-
   }
 
   /**

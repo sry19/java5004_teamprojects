@@ -33,9 +33,7 @@ public class TodoListTest {
 
   @Test
   public void addTodo() throws IOException, ParseException {
-    String description = "\"Finish hw9\",\"false\",\"03/22/2020\",\"1\",\"school\"";
-    //int num = list1.numOftodo;
-    list1.addTodo(description);
+    list1.addTodo("Finish hw9", "false","03/22/2020", "1","school");
     assertTrue(list1.numOftodo == 3);
   }
 
@@ -48,9 +46,7 @@ public class TodoListTest {
 
   @Test
   public void updateCSV() throws IOException, ParseException {
-    String description = "\"Finish hw10\",\"false\",\"03/21/2020\",\"1\",\"school\"";
-    //list1 = new TodoList("src/main/resources/todolist1.csv");
-    list1.addTodo(description);
+    list1.addTodo("Finish hw9", "false","03/22/2020", "1","school");
     list1.updateCSV();
   }
 
