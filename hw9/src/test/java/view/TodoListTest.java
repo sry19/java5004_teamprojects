@@ -23,31 +23,29 @@ public class TodoListTest {
     todo8 = new Todo(6, "Finish hw9", "false", "03/22/2020", "3", "school");
     todo9 = new Todo(7, "Finish hw9", "false", "03/22/2020", "1", "health");
     todo7 = new Todo(8, "eating salmon", "false", "?", "1", "school");
-    list1 = new TodoList("src/main/resources/todolist2.csv");
-  }
-
-  @Test
-  public void initialize() {
-    assertTrue(list1.numOftodo == 2);
   }
 
   @Test
   public void addTodo() throws IOException, ParseException {
+    list1 = new TodoList("src/main/resources/todolist2.csv");
+    int old = list1.numOftodo;
     list1.addTodo("Finish hw9", "false","03/22/2020", "1","school");
-    assertTrue(list1.numOftodo == 3);
+    assertTrue(list1.numOftodo == old + 1);
+    list1.updateCSV();
   }
 
   @Test
-  public void completed() throws FileNotFoundException {
-    list1.completed(1);
-    System.out.println(list1.itemArrayList.get(0).toString());
-    assertTrue(list1.itemArrayList.get(0).isCompleted());
+  public void completed() throws IOException {
+      list1 = new TodoList("src/main/resources/todolist.csv");
+      list1.completed(1);
+//    System.out.println(list1.itemArrayList.get(0).toString());
+//    assertTrue(list1.itemArrayList.get(0).isCompleted());
   }
 
   @Test
   public void updateCSV() throws IOException, ParseException {
-    list1.addTodo("Finish hw9", "false","03/22/2020", "1","school");
-    list1.updateCSV();
+//    list1.addTodo("Finish hw9", "false","03/22/2020", "1","school");
+//    list1.updateCSV();
   }
 
   @Test
@@ -58,7 +56,8 @@ public class TodoListTest {
   }
 
   @Test
-  public void display() {
+  public void display() throws IOException {
+    list1 = new TodoList("src/main/resources/todolist.csv");
     list1.display();
   }
 

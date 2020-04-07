@@ -1,6 +1,5 @@
 package view;
 
-import exceptions.InvalidCSVFileException;
 import java.text.ParseException;
 import java.util.HashMap;
 import model.comparators.ComparatorFactory;
@@ -12,8 +11,6 @@ import model.Todo;
 import model.filter.TodoFilterStash;
 import model.reader.CSVReader;
 import model.reader.IReader;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.Collections;
 import model.comparators.AbstractComparator;
 
@@ -42,7 +39,7 @@ public class TodoList extends ItemList<Todo> {
    * @return count of items
    * @throws IOException when file cannot open
    */
-  public int initialize() throws IOException {
+  private int initialize() throws IOException {
     int count = 0;
     try {
       IReader reader = new CSVReader(this.filepath);
@@ -89,26 +86,15 @@ public class TodoList extends ItemList<Todo> {
   public void addTodo(String text, String completed, String due, String priority, String category)
       throws ParseException {
     int newId = this.numOftodo + 1;
-    Todo newItem = new Todo(newId,text,completed,due,
-        priority,category);
+    Todo newItem = new Todo(newId,text,completed,due,priority,category);
     this.appendItem(newItem);
     this.numOftodo++;
   }
 
   /**
-   * Trim the starting and ending quote of a String.
-   *
-   * @param s the provided string.
-   * @return the trimmed string.
-   */
-  private static String trimQuotes(String s) {
-    return s.replaceAll(TRIM_REGEX, EMPTY);
-  }
-
-  /**
    * set the completion status of a to-do
    * @param id the to-do id
-   * @throws FileNotFoundException if fild not found
+   * @throws FileNotFoundException if id not found
    */
   //how to change a specific line??
   public void completed(int id) throws FileNotFoundException {
@@ -151,23 +137,14 @@ public class TodoList extends ItemList<Todo> {
    */
   @Override
   public void display() {
-    try (BufferedReader inputFile = new BufferedReader(new FileReader(this.filepath))) {
-      String line;
-      inputFile.readLine();  //read the first line and not use it
-      while ((line = inputFile.readLine()) != null) {
-        System.out.println(line);  //starting printing from line 2
-      }
-    } catch (FileNotFoundException fnfe) {
-      System.out.println("File not found!" + fnfe.getMessage());
-      fnfe.printStackTrace();
-    } catch (IOException ioe) {
-      System.out.println("Something went wrong!" + ioe.getMessage());
+    for (Todo todo: this.itemArrayList) {
+      System.out.println(todo.displayTodo());
     }
   }
 
   /**
    * filter for the sort type
-   * @param commandLine command line argument
+   * @param  values a HashMap whose key is the option name and whose values are string array
    */
   @Override
   public void filter(HashMap<String,String[]> values) {
