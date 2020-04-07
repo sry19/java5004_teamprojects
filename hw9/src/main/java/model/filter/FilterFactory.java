@@ -7,6 +7,9 @@ import controller.OptionConstants;
  */
 public class FilterFactory {
 
+  private FilterFactory() {
+  }
+
   /**
    * Make filter according to commandline arguments.
    *
