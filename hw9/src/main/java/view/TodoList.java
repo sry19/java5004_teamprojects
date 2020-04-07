@@ -17,6 +17,9 @@ import java.io.FileReader;
 import java.util.Collections;
 import model.comparators.AbstractComparator;
 
+/**
+ * The concrete to-do list class
+ */
 public class TodoList extends ItemList<Todo> {
   String filepath;
   int numOftodo;
@@ -26,12 +29,22 @@ public class TodoList extends ItemList<Todo> {
   static final String EMPTY = "";
   static final String HEADER = "“id”,”text”,”completed”,”due”,”priority”,”category”";
 
+  /**
+   * To-do list constructor
+   * @param filepath the file path
+   * @throws IOException when file cannot be opened
+   */
   public TodoList(String filepath) throws IOException {
     super();
     this.filepath = filepath;
     this.numOftodo = this.initialize();
   }
 
+  /**
+   * Initialize the to-do array list
+   * @return count of items
+   * @throws IOException when file cannot open
+   */
   public int initialize() throws IOException {
     int count = 0;
     try {
@@ -49,19 +62,37 @@ public class TodoList extends ItemList<Todo> {
       return 0;
     }
   }
-  
 
+  /**
+   * Add a to-do
+   * @param id to-do id
+   * @param text to-do text
+   * @param completed if completed
+   * @param due due time
+   * @param priority priority of to-do
+   * @param category category of to-do
+   * @throws ParseException when cannot parse
+   */
   private void add(String id, String text, String completed, String due, String priority, String category)
       throws ParseException {
     Todo newItem = new Todo(Integer.parseInt(id),text,completed,due,priority,category);
     super.appendItem(newItem);
   }
 
+ //TODO:.
+  //can i use builder pattern?
+
+  /**
+   * Add to-to
+   * @param description to-do description
+   * @throws IOException when file cannot open
+   * @throws ParseException when cannot parse
+   */
   public void addTodo(String text, String completed, String due, String priority, String category)
       throws IOException, ParseException {
     int newId = this.numOftodo + 1;
     Todo newItem = new Todo(newId,text,completed,due,
-        priority,trimQuotes(category));
+        priority,category);
     this.appendItem(newItem);
   }
 
@@ -76,9 +107,14 @@ public class TodoList extends ItemList<Todo> {
   }
 
 
+  /**
+   * set the completion status of a to-do
+   * @param id the to-do id
+   * @throws FileNotFoundException if fild not found
+   */
   //how to change a specific line??
   public void completed(int id) throws FileNotFoundException {
-    for (Todo todo : this.itemArrayList) {
+    for (Todo todo : this.itemArrayList) {  //why this, and super in line 138?
       if (todo.getId() == id) {
         todo.setCompleted(true);
         return;
@@ -86,6 +122,10 @@ public class TodoList extends ItemList<Todo> {
     }
   }
 
+   /**
+   * Update the CSV
+   * @param filepath the file path
+   */
   public void updateCSV() {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filepath))) {
       writer.write(HEADER);
@@ -97,12 +137,19 @@ public class TodoList extends ItemList<Todo> {
     }
   }
 
+  /**
+   * Sort the to-dos
+   * @param type the type to sort with
+   */
   @Override
   public void sort(String type) {
     AbstractComparator todoComparator = ComparatorFactory.makeComparator(type);
     Collections.sort(this.itemArrayList, todoComparator);
   }
 
+  /**
+   * Display the to-dos
+   */
   @Override
   public void display() {
     try (BufferedReader inputFile = new BufferedReader(new FileReader(this.filepath))) {
@@ -119,6 +166,10 @@ public class TodoList extends ItemList<Todo> {
     }
   }
 
+  /**
+   * filter for the sort type
+   * @param commandLine command line argument
+   */
   @Override
   public void filter(HashMap<String,String[]> values) {
     TodoFilterStash filterStash = new TodoFilterStash(values);
