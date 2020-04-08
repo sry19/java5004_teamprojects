@@ -324,12 +324,27 @@ public class Todo extends Item implements IItem {
    *
    * @return the string
    */
-  public String displayTodo() {
-    return "Todo{id= {" + id + "}, text = {" + text + "}, completed = {" + completed + "}, due = {"
-        +
-        localDateToString(due) + "}, priority = {" + priority + "}, category = {" + category
-        + "}}\n";
+  public void display() {
+
+    String line = String
+        .format(DisplayConstants.fmt, this.id, this.text, this.completed, this.due, this.priority,
+            this.category);
+    String lineSplitter = generateSplitterLine(line);
+    System.out.println(line);
+    System.out.println(lineSplitter);
   }
 
-
+  /**
+   * Generate Line splitter
+   *
+   * @param line to know the length of the line.
+   * @return the lineSplitter.
+   */
+  public static String generateSplitterLine(String line) {
+    String lineSplitter = "";
+    for (int i = 0; i < line.length(); i++) {
+      lineSplitter += DisplayConstants.SPLITTER;
+    }
+    return lineSplitter;
+  }
 }

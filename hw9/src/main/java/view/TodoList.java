@@ -3,6 +3,7 @@ package view;
 import exceptions.InvalidIdException;
 import java.text.ParseException;
 import java.util.HashMap;
+import model.DisplayConstants;
 import model.comparators.ComparatorFactory;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -149,10 +150,24 @@ public class TodoList extends ItemList<Todo> {
     if (this.itemArrayList.isEmpty()) {
       System.out.println("Sorry, no result found");
     } else {
+      this.printHeader();
       for (Todo todo : this.itemArrayList) {
-        System.out.println(todo.displayTodo());
+        todo.display();
       }
     }
+  }
+
+  /**
+   * Print the header of the table.
+   */
+  private void printHeader() {
+    String header = String
+        .format(DisplayConstants.fmt, DisplayConstants.HEADER_ID, DisplayConstants.HEADER_TEXT,
+            DisplayConstants.HEADER_COMPLETED, DisplayConstants.HEADER_DUE,
+            DisplayConstants.HEADER_PRIORITY, DisplayConstants.HEADER_CATEGORY);
+    String lineSplitter = Todo.generateSplitterLine(header);
+    System.out.println(header);
+    System.out.println(lineSplitter);
   }
 
   /**

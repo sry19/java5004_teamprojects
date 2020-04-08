@@ -10,7 +10,7 @@ import org.junit.Test;
 public class MainTest {
 
   @Test
-  public void showAll() throws Exception {
+  public void displayAll() throws Exception {
     String[] args = {"--csv-file", "src/main/resources/maintest.csv", "--display"};
     Main.main(args);
   }
