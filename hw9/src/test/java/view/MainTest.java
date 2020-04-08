@@ -60,7 +60,7 @@ public class MainTest {
 
   @Test
   public void completeTodo() throws Exception {
-    String[] args = {"--csv-file", "src/main/resources/maintest.csv", "--complete-todo", "1,2,3"};
+    String[] args = {"--csv-file", "src/main/resources/maintest.csv", "--complete-todo", "1,2"};
     Main.main(args);
   }
 

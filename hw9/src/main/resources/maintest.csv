@@ -1,3 +1,6 @@
 "id","text","completed","due","priority","category"
 "1","finish java hw","true","?","1","?"
 "2","finish java hw","true","04/01/2020","2","?"
+"3","random_event2","false","?","3","?"
+"4","random_event1","true","04/06/2020","1","some_category"
+"5","random_event1","true","04/06/2020","1","some_category"
