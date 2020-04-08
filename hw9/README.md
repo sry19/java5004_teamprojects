@@ -1,5 +1,11 @@
 # Design patterns:
 
+## MVC Design pattern
+Our whole project uses **MVC** design pattern. And we seperated them into different packages which can be seen in our UML diagram.
+
+## The "Option" class used builder
+For the **Option** class, I used builder pattern as it contains a lot of fields, and most of them are optional. Therefore, I applied builder pattern to create a Option.
+
 ## The "comparators" use "Factory pattern".
 
 Reasoning: 
