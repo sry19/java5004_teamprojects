@@ -23,6 +23,7 @@ public class TodoList extends ItemList<Todo> {
   static final String SPLIT_REGEX = "\",\"";
   static final String EMPTY = "";
   static final String HEADER = "\"id\",\"text\",\"completed\",\"due\",\"priority\",\"category\"";
+  static final String NEW_LINE = "\n";
 
   /**
    * To-do list constructor
@@ -87,7 +88,7 @@ public class TodoList extends ItemList<Todo> {
    * @param due       a string
    * @param priority  a string
    * @param category  a string
-   * @throws ParseException
+   * @throws ParseException when cannot parse
    */
   public void addTodo(String text, String completed, String due, String priority, String category)
       throws ParseException {
@@ -120,10 +121,10 @@ public class TodoList extends ItemList<Todo> {
     System.out.println(super.itemArrayList);
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filepath))) {
       writer.write(HEADER);
-      writer.write("\n");
+      writer.write(NEW_LINE);
       for (Todo todo : super.itemArrayList) {
         writer.write(todo.toString());
-        writer.write("\n");
+        writer.write(NEW_LINE);
       }
     } catch (IOException e) {
       e.printStackTrace();

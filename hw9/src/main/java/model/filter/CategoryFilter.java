@@ -62,8 +62,6 @@ public class CategoryFilter extends Filter {
     }
 
     CategoryFilter that = (CategoryFilter) o;
-
-    // Probably incorrect - comparing Object[] arrays with Arrays.equals
     return Arrays.equals(categories, that.categories);
   }
 

@@ -19,6 +19,18 @@ public class Todo extends Item implements IItem {
   private String category;
   private int id;
   private static final String NOT_FILLED = "?";
+  private static final String ID = "id";
+  private static final String TEXT = "text";
+  private static final String COMPLETED = "completed";
+  private static final String DUE = "due";
+  private static final String PRIORITY = "priority";
+  private static final String PATTERN = "MM/dd/yyyy";
+  private static final String SPLITTER1 = "/";
+  private static final String SPLITTER2 = "-";
+  private static final int ZERO = 0;
+  private static final int ONE = 1;
+  private static final int TWO = 2;
+  private static final int THREE = 3;
 
   /**
    * To-do constructor
@@ -51,15 +63,15 @@ public class Todo extends Item implements IItem {
    */
   public Todo(HashMap<String, String> todo) throws InvalidItemException, ParseException {
     for (String field : todo.keySet()) {
-      if (field.equals("id")) {
+      if (field.equals(ID)) {
         this.id = this.checkID(todo.get(field));
-      } else if (field.equals("text")) {
+      } else if (field.equals(TEXT)) {
         this.text = this.checkText(todo.get(field));
-      } else if (field.equals("completed")) {
+      } else if (field.equals(COMPLETED)) {
         this.completed = this.checkCompleted(todo.get(field));
-      } else if (field.equals("due")) {
+      } else if (field.equals(DUE)) {
         this.due = this.checkDue(todo.get(field));
-      } else if (field.equals("priority")) {
+      } else if (field.equals(PRIORITY)) {
         this.priority = this.checkPriority(todo.get(field));
       } else {
         this.category = this.checkCategory(todo.get(field));
@@ -76,12 +88,12 @@ public class Todo extends Item implements IItem {
    */
   private static LocalDate generateDue(String due) throws ParseException {
     try {
-      SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+      SimpleDateFormat format = new SimpleDateFormat(PATTERN);
       format.parse(due);
-      String[] time = due.split("/");
-      int year = Integer.parseInt(time[2]);
-      int month = Integer.parseInt(time[0]);
-      int date = Integer.parseInt(time[1]);
+      String[] time = due.split(SPLITTER1);
+      int year = Integer.parseInt(time[TWO]);
+      int month = Integer.parseInt(time[ZERO]);
+      int date = Integer.parseInt(time[ONE]);
       LocalDate newDate = LocalDate.of(year, month, date);
       return newDate;
     } catch (ParseException e) {
@@ -101,8 +113,8 @@ public class Todo extends Item implements IItem {
       return null;
     }
     String oldString = localDate.toString();
-    String[] time = oldString.split("-");
-    String newString = time[1] + "/" + time[2] + "/" + time[0];
+    String[] time = oldString.split(SPLITTER2);
+    String newString = time[ONE] + SPLITTER1 + time[TWO] + SPLITTER1 + time[ZERO];
     return newString;
   }
 
@@ -138,10 +150,10 @@ public class Todo extends Item implements IItem {
    */
   public int checkPriority(String priority) {
     if (priority.equals(NOT_FILLED) || priority == null) {
-      return 3;
+      return THREE;
     }
     int p = Integer.parseInt(priority);
-    if (p > 3 || p < 1) {
+    if (p > THREE || p < ONE) {
       throw new InvalidItemException();
     }
     return p;
