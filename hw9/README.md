@@ -11,7 +11,7 @@ in.
 * Even though now we only have two comparators, factory pattern makes sure the efficiency of adding
 new comparators in the future. 
 
-# The "filter" use "Factory pattern & Observer pattern".
+## The "filter" uses "Factory pattern & Observer pattern".
 
 Reasoning:
 * In order to build filters, we use factory design pattern. Filter() does not need to know which 
