@@ -119,7 +119,6 @@ public class TodoList extends ItemList<Todo> {
    * Update the CSV
    */
   public void updateCSV() {
-    System.out.println(super.itemArrayList);
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filepath))) {
       writer.write(HEADER);
       writer.write(NEW_LINE);
