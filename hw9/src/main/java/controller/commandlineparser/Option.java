@@ -22,6 +22,7 @@ public class Option {
   private String value;
   private String[] values;
   private String[] dependencies;
+  private static final String NEW_LINE = "\n";
 
   /**
    * Use builder to build an Option.
@@ -93,7 +94,7 @@ public class Option {
   public void printUsage() {
     String arg = this.hasSubArg ? this.getArgName() : "";
     System.out.println(this.getName() + " " + arg);
-    System.out.println(this.getDescription() + "\n");
+    System.out.println(this.getDescription() + NEW_LINE);
   }
 
   /**

@@ -17,6 +17,8 @@ public class CSVReader implements IReader {
   private String inputDataPath;
   private String[] fields;
   private int fieldNum;
+  private static final String SPLITTER = "\",\"";
+  private static final String TRIM = "^\"|\"$";
 
   /**
    * Initialize a CSV Reader.
@@ -64,7 +66,7 @@ public class CSVReader implements IReader {
    */
   private HashMap<String, String> parseRow(String row) throws InvalidCSVFileException {
     HashMap<String, String> res = new HashMap<>();
-    String[] columns = row.split("\",\"");  // TODO might need to be improved
+    String[] columns = row.split(SPLITTER);
     if (columns.length != this.fieldNum) {
       throw new InvalidCSVFileException();
     }
@@ -86,7 +88,7 @@ public class CSVReader implements IReader {
       throw new InvalidCSVFileException();
     }
 
-    this.fields = headRow.split("\",\"");
+    this.fields = headRow.split(SPLITTER);
     this.fieldNum = this.fields.length;
 
     for (int i = 0; i < this.fieldNum; i++) {
@@ -101,7 +103,7 @@ public class CSVReader implements IReader {
    * @return the trimmed string.
    */
   private static String trimQuotes(String s) {
-    return s.replaceAll("^\"|\"$", "");
+    return s.replaceAll(TRIM, "");
   }
 
   /**
